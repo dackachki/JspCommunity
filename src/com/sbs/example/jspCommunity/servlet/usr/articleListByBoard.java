@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
-@WebServlet("/usr/member/list")
-public class MemberListServlet extends HttpServlet {
+@WebServlet("/usr/article/")
+public class articleListByBoard extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
@@ -22,11 +22,12 @@ public class MemberListServlet extends HttpServlet {
 		
 		MysqlUtil.setDBInfo("127.0.0.1", "sbsst", "sbs123414", "jspCommunity");
 		
-		List<Map<String, Object>> memberMapList = MysqlUtil.selectRows(new SecSql().append("SELECT * FROM member ORDER BY id DESC"));
+		List<Map<String, Object>> infoMapList = MysqlUtil.selectRows(new SecSql().append("SELECT * FROM article where boardId = 1 ORDER BY id DESC"));
+		System.out.println(infoMapList);
 		MysqlUtil.closeConnection();
 		
-		req.setAttribute("memberMapList", memberMapList);
-		System.out.println(memberMapList);
-		req.getRequestDispatcher("/jsp/usr/member/list.jsp").forward(req, resp);
+		req.setAttribute("infoMapList", infoMapList);
+		
+		req.getRequestDispatcher("/jsp/usr/article/infolist.jsp").forward(req, resp);
 	}
 }
