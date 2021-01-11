@@ -9,7 +9,6 @@ import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
 public class ArticleDao {
-
 	public List<Article> getForPrintArticlesByBoardId(int boardId) {
 		List<Article> articles = new ArrayList<>();
 
@@ -27,7 +26,7 @@ public class ArticleDao {
 			sql.append("WHERE A.boardId = ?", boardId);
 		}
 		sql.append("ORDER BY A.id DESC");
-
+		
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
 
 		for (Map<String, Object> articleMap : articleMapList) {
@@ -37,52 +36,12 @@ public class ArticleDao {
 		return articles;
 	}
 
-	public Article getArticleById(int articleId) {
-		SecSql sql = new SecSql();
-		sql.append("SELECT A.*");
-		sql.append(", M.name AS extra__writer");
-		sql.append(", B.name AS extra__boardName");
-		sql.append(", B.code AS extra__boardCode");
-		sql.append("FROM article AS A");
-		sql.append("INNER JOIN `member` AS M");
-		sql.append("ON A.memberId = M.id");
-		sql.append("INNER JOIN `board` AS B");
-		sql.append("ON A.boardId = B.id");
-		if (articleId != 0) {
-			sql.append("WHERE A.id = ?", articleId);
-		}
-		sql.append("ORDER BY A.id DESC");
-
-		Map<String, Object> articleMap = MysqlUtil.selectRow(sql);
-
-		
-			Article article = new Article(articleMap);
-		
-
-		return article;
-	
-	
-	}
-
-	public String getBoardByArticleId(int boardId) {
-		SecSql sql = new SecSql();
-		sql.append("SELECT * FROM BOARD WHERE ID = ?",boardId);
-		
-		Map<String, Object> BoardMap = MysqlUtil.selectRow(sql);
-		String BoardName = (String) BoardMap.get("name");
-		System.out.println(BoardName);
-		return BoardName;
-	}
-
-	public String add(String title, String body, int memberId, int boardId) {
+	public void add(String title, String body, int memberId, int boardId) {
 		
 		SecSql sql = new SecSql();
 		sql.append("insert into article" );
 		sql.append("set title = ?,",title );
 		sql.append("`body`= ?,memberId = ?",body,memberId );
 		sql.append("boardId = ?;",boardId );
-		return "추가 완료";
 	}
 }
-
-

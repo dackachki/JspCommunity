@@ -7,10 +7,9 @@ import com.sbs.example.jspCommunity.dao.ArticleDao;
 import com.sbs.example.jspCommunity.dto.Article;
 
 public class ArticleService {
-	ArticleDao articleDao;
-	
-	
-	public ArticleService(){
+	private ArticleDao articleDao;
+
+	public ArticleService() {
 		articleDao = Container.articleDao;
 	}
 
@@ -18,12 +17,8 @@ public class ArticleService {
 		return articleDao.getForPrintArticlesByBoardId(boardId);
 	}
 
-	public Article getArticleById(int articleId) {
-		return articleDao.getArticleById(articleId);
+	public String add(String title, String body, int memberId, int boardId) {
+	return articleDao.add(title, body, memberId, boardId);
+		
 	}
-
-	public String getBoardByArticleId(int boardId) {
-			return articleDao.getBoardByArticleId(boardId);
-	}
-
 }
