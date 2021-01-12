@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sbs.example.jspCommunity.dto.Article;
+import com.sbs.example.jspCommunity.dto.Board;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
@@ -55,34 +56,70 @@ public class ArticleDao {
 
 		Map<String, Object> articleMap = MysqlUtil.selectRow(sql);
 
-		
-			Article article = new Article(articleMap);
-		
+		Article article = new Article(articleMap);
 
 		return article;
-	
-	
+
 	}
 
-	public String getBoardByArticleId(int boardId) {
-		SecSql sql = new SecSql();
-		sql.append("SELECT * FROM BOARD WHERE ID = ?",boardId);
+	public Board getBoardByArticleId(int boardId) {
 		
-		Map<String, Object> BoardMap = MysqlUtil.selectRow(sql);
-		String BoardName = (String) BoardMap.get("name");
-		System.out.println(BoardName);
-		return BoardName;
+		SecSql sql = new SecSql();
+		sql.append("SELECT * FROM BOARD WHERE ID = ?", boardId);
+
+		Map<String, Object> boardMap = MysqlUtil.selectRow(sql);
+
+		Board board = new Board(boardMap);
+
+		return board;
 	}
 
-	public String add(String title, String body, int memberId, int boardId) {
+	public int add(String title, String body, int memberId, int boardId) {
+
+		SecSql sql = new SecSql();
+		sql.append("INSERT INTO ARTICLE");
+		sql.append("SET TITLE = ?", title);
+		sql.append(",regDate = now()");
+		sql.append(",updateDate = now()");
+		sql.append(",`body`= ?,memberId = ?", body, memberId);
+		sql.append(",boardId = ?;", boardId);
+
+		return MysqlUtil.insert(sql);
+	}
+
+	public int articleModify(int articleId, String title, String body, int boardId) {
+		SecSql sql = new SecSql();
+		sql.append("Update article set title =?",title);
+		sql.append(", `body` = ?",body);
+		sql.append(",updateDate = now()");
+		sql.append(",boardId = ?",boardId);
+		sql.append("where id = ?",articleId);
+		
+		return MysqlUtil.update(sql);
+		
+	}
+
+	public List<Board> getAllBoards() {
+		List<Board> boards = new ArrayList<>();
 		
 		SecSql sql = new SecSql();
-		sql.append("insert into article" );
-		sql.append("set title = ?,",title );
-		sql.append("`body`= ?,memberId = ?",body,memberId );
-		sql.append("boardId = ?;",boardId );
-		return "추가 완료";
+		sql.append("SELECT * FROM BOARD");
+
+		List<Map<String, Object>> boardMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> boardMap : boardMapList) {
+			boards.add(new Board(boardMap));
+		}
+		return boards;
+	}
+
+	public void deleteArticle(int articleId) {
+		SecSql sql = new SecSql();
+		sql.append("delete from article");
+		sql.append("where id= ?",articleId);;
+		
+		 MysqlUtil.delete(sql);
+		
+		
 	}
 }
-
-

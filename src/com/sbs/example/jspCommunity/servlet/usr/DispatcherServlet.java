@@ -50,13 +50,26 @@ public class DispatcherServlet extends HttpServlet {
 				jspPath = articleController.showList(req, resp);
 			
 			}
-			else if(actionMethodName.equals("add")) {
-				
+				else if(actionMethodName.equals("add")) {
 				jspPath = articleController.add(req,resp);
 			}
-			else if(actionMethodName.equals("detail")) {
+			else if(actionMethodName.equals("doAdd")) {
 				
+				jspPath = articleController.doAdd(req,resp);
 			}
+			else if(actionMethodName.equals("detail")) {
+				jspPath = articleController.detail(req,resp);
+			}
+			else if(actionMethodName.equals("modify")) {
+				jspPath = articleController.modify(req,resp);
+			}
+			else if(actionMethodName.equals("doModify")) {
+				jspPath = articleController.doModify(req,resp);
+			}
+			else if(actionMethodName.equals("delete")) {
+				jspPath = articleController.delete(req,resp);
+			}
+
 		}
 		
 		
@@ -67,7 +80,10 @@ public class DispatcherServlet extends HttpServlet {
 		rd.forward(req, resp);
 	}
 	
-		
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req, resp);
+	}	
 	}
 	
 
