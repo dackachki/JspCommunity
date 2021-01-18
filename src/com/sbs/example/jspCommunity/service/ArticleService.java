@@ -46,8 +46,8 @@ public class ArticleService {
 	List<Board> boards = articleDao.getAllBoards();
 	Article article = articleDao.getArticleById(articleId);
 	for(Board board : boards) {
-		if(article.boardId == board.id) {
-			return board.name;
+		if(article.getBoardId() == board.getId()) {
+			return board.getName();
 		}
 		
 	}

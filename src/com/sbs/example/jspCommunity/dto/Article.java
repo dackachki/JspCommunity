@@ -2,19 +2,25 @@ package com.sbs.example.jspCommunity.dto;
 
 import java.util.Map;
 
+import lombok.Data;
+@Data
 public class Article {
-	public int id;
-	public String regDate;
-	public String updateDate;
-	public String title;
-	public String body;
-	public int memberId;
-	public int boardId;
-	public int hitsCount;
+	private int id;
+	private String regDate;
+	private String updateDate;
+	private String title;
+	private String body;
+	private int memberId;
+	private int boardId;
+	private int hitsCount;
+	private String extra__writer;
+	private String extra__boardName;
+	private String extra__boardCode;
+	
+	
 
-	public String extra__writer;
-	public String extra__boardName;
-	public String extra__boardCode;
+	
+
 
 	public Article(Map<String, Object> map) {
 		this.id = (int) map.get("id");

@@ -23,8 +23,8 @@ public class ArticleController {
 		List<Article> articles = articleService.getForPrintArticlesByBoardId(boardId);
 		List<Board> boards = articleService.getAllBoards();
 		for(Board board :boards) {
-			if(board.id == boardId) {
-				 boardName = board.name;
+			if(board.getId() == boardId) {
+				 boardName = board.getName();
 			}
 		}
 		
@@ -73,7 +73,9 @@ public class ArticleController {
 	public String modify(HttpServletRequest req, HttpServletResponse resp) {
 		int articleId = Integer.parseInt(req.getParameter("articleId"));
 		List<Board> boards = articleService.getAllBoards();
-
+		
+		Article article = articleService.getArticleById(articleId);
+		req.setAttribute("article",article);
 		req.setAttribute("boards", boards);
 		req.setAttribute("articleId", articleId);
 		return "usr/article/modify";
@@ -87,6 +89,12 @@ public class ArticleController {
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
 		String boardName = articleService.getBoardNameById(articleId);
 		 
+		if(boardId == 0) {
+			req.setAttribute("alertMsg","게시판을 선택해주세요.");
+			req.setAttribute("replaceUrl", String.format("modify?articleId=%d", articleId));
+			return "common/redirect";
+			
+		}
 		int modified = articleService.articleModify(articleId, title, body,boardId);
 		req.setAttribute("alertMsg", articleId + "번 게시물이 수정되었습니다.");
 		req.setAttribute("replaceUrl", String.format("detail?articleId=%d&boardName=%s", articleId, boardName));

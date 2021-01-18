@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="java.util.List"%>
-<%@ page import="com.sbs.example.jspCommunity.dto.Board"%>
 
-<%
-List<Board> boards = (List)request.getAttribute("boards");
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-%>
+
 <style>
 textarea{
 width:200px;
@@ -38,12 +34,9 @@ height:200px;
 	게시판 선택
 	<select name="boardId" >
 			
-		<%
-		for(Board board: boards){
-		%>
-		<option value=<%=board.id %>><%=board.name%></option>
-			<%} 
-			%>
+		<c:forEach var="board" items="${boards}">
+				<option value="${board.getId()}">${board.getName()}</option>
+			</c:forEach>
 		</select>
 		
 		

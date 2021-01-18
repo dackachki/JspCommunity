@@ -2,15 +2,19 @@ package com.sbs.example.jspCommunity.dto;
 
 import java.util.Map;
 
+import lombok.Data;
+@Data
 public class Board {
-	public int id;
-	public String regDate;
-	public String updateDate;
-	public String code;
-	public String name;
+	private int id;
+	private String regDate;
+	private String updateDate;
+	private String code;
+	private String name;
 	
 
 	
+
+
 	public Board(Map<String, Object> map) {
 		this.id = (int) map.get("id");
 		this.regDate = (String) map.get("regDate");

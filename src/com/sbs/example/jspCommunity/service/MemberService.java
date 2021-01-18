@@ -18,4 +18,19 @@ public class MemberService {
 		return memberDao.getForPrintMembers();
 	}
 
+	public boolean loginIdCheck(String loginId) {
+		List<Member> members = getForPrintMembers();
+		for(Member member: members) {
+			if(member.loginId == loginId) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void memberJoin(String name, String loginId, String loginPw, String nickname, String email) {
+		memberDao.memberJoin(name,loginId,loginPw,nickname,email);
+		
+	}
+
 }
