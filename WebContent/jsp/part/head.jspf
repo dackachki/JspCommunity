@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<title>${pageTitle}</title>
+</head>
+<body>
+
+<c:if test="${sessionScope.loginedMemberId > 0}">
+	<div>
+		로그인된 회원의 번호 : ${sessionScope.loginedMemberId}
+	</div>
+</c:if>
+
+<div>
+	
+	<a href="../article/list?boardId=1">공지사항 게시물 리스트</a>
+
+	<c:if test="${sessionScope.loginedMemberId > 0}">
+		<a href="../article/add?boardId=1">공지사항 글쓰기</a>
+		<a href="../member/doLogout">로그아웃</a>
+	</c:if>
+	
+	<c:if test="${sessionScope.loginedMemberId == null}">
+		<a href="../member/login">로그인</a>
+		<a href="../member/join">회원가입</a>
+	</c:if>
+	
+</div>
