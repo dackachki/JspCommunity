@@ -1,4 +1,4 @@
-package com.sbs.example.jspCommunity.servlet.controller;
+package com.sbs.example.jspCommunity.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

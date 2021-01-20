@@ -3,24 +3,15 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<c:set var="pageTitle" value="게시글 작성" />
 
-<style>
-textarea{
-width:200px;
-height:200px;
-}
+<%@ include file="../../part/head.jspf"%>
 
-</style>
-
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<title>게시글 작성</title>
-</head>
-<body>
+	
+	
+	<form class="con-min-width" action="doAdd" method="POST">	
+	<div class="con">
 	<h1>게시글 작성</h1>
-	<form action="doAdd" method="POST">	
 	
 	<input type="hidden" name="memberId"  value="1">
 	<div>
@@ -45,6 +36,7 @@ height:200px;
 			
 
 		
+	</div>
 	</div>
 </form>
 </body>

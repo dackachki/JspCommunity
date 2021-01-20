@@ -58,4 +58,8 @@ public class ArticleService {
 		articleDao.deleteArticle(articleId);
 		
 	}
+
+	public int getMemberIdByArticleId(int articleId) {
+		return articleDao.getMemberIdByArticleId(articleId);
+	}
 }

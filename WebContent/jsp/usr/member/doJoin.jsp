@@ -3,40 +3,26 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<%@ include file="../../part/head.jspf"%>
 
-<style>
-textarea {
-	width: 200px;
-	height: 200px;
-}
 
-input {
-	text-align: right;
-}
-</style>
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<title>게시글 작성</title>
-</head>
-<body>
-	<h1>게시글 작성</h1>
-	<form action="doJoin" method="POST">
-		<div>
-			이름:
-			<input type="text" name="membername" maxlength="30">
+	
+	<form class="con-min-width" action="doJoin" method="POST">
+		<div class="con">
+		<h1>회원  가입</h1>
+			이름:<br>
+			<input type="text" name="membername" maxlength="30" placeholder="">
 			<br>
-			아이디:
+			아이디:<br>
 			<input type="text" name="loginId" maxlength="30">
 			<br>
-			비밀번호:
+			비밀번호:<br>
 			<input type="password" name="loginPw" maxlength="30">
 			<br>
-			닉네임:
+			닉네임:<br>
 			<input type="text" name="nickname" maxlength="30">
 			<br>
-			이메일 주소:
+			이메일 주소:<br>
 			<input type="text" name="email" maxlength="30">
 			<br>
 	

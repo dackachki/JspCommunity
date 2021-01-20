@@ -3,28 +3,15 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<%
+<c:set var="pageTitle" value="${boardName} 게시판 리스트" />
+
+<%@ include file="../../part/head.jspf"%>
+
+<hr>
+	<section class="menu con-min-width">
+	<div class="con">		
 	
-%>
-<style>
-section>div {
-	display: inline-block;
-}
-</style>
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<title>${boardName} 게시판 리스트</title>
-</head>
-<body>
-	<section class="menu">
-		<h2>게시물 설정</h2>
-		<div>
-			<a href="add?boardId=<%=request.getParameter("boardId")%>">게시물 작성</a>
-		</div>
-		<hr />
-		<div>게시판 변경</div>
+	<div>게시판 변경</div>
 
 		<select name="boardId"
 			onchange="if(this.value) location.href=(this.value)">
@@ -35,8 +22,11 @@ section>div {
 
 			</c:forEach>
 		</select>
+		</div>
 	</section>
 	<hr />
+	<div class="con-min-width">
+	<div class="con">
 	<h1>${boardName} 게시물 리스트</h1>
 
 	<c:forEach var="article" items="${articles}">
@@ -47,14 +37,15 @@ section>div {
 			<br />
 			갱신날짜 : ${article.getUpdateDate()}
 			<br />
-			작성자 : ${article.getExtra__writer()}
+			작성자 : ${article.getExtra__nickname()}
 			<br />
 			제목 :
-			<a href="detail?articleId=${article.getId()}">${article.getTitle()}</a>
+			<a class="highlight" href="detail?articleId=${article.getId()}">${article.getTitle()}</a>
 			<hr />
 		</div>
 	</c:forEach>
-
+</div>
+</div>
 
 
 </body>

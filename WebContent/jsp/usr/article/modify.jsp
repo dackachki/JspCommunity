@@ -5,28 +5,10 @@
 <%@ page import="com.sbs.example.jspCommunity.dto.Board"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<style>
-textarea {
-	width: 200px;
-	height: 200px;
-}
+<c:set var="pageTitle" value="${articleId}번 게시글 수정" />
 
-.articlebody {
-	display: inline-block;
-}
+<%@ include file="../../part/head.jspf"%>
 
-.articlebody span {
-	font-size: 1.5srem;
-}
-</style>
-
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<title>${articleId}번 게시글 수정</title>
-</head>
-<body>
 
 	<h1>${articleId}번 게시글 수정</h1>
 	<form action="doModify" method="POST">

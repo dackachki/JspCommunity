@@ -14,6 +14,7 @@ public class Article {
 	private int boardId;
 	private int hitsCount;
 	private String extra__writer;
+	private String extra__nickname;
 	private String extra__boardName;
 	private String extra__boardCode;
 	
@@ -30,7 +31,9 @@ public class Article {
 		this.body = (String) map.get("body");
 		this.memberId = (int) map.get("memberId");
 		this.boardId = (int) map.get("boardId");
+		
 		this.hitsCount = (int) map.get("hitsCount");
+		
 
 		if (map.containsKey("extra__writer")) {
 			this.extra__writer = (String) map.get("extra__writer");
@@ -42,6 +45,9 @@ public class Article {
 
 		if (map.containsKey("extra__boardCode")) {
 			this.extra__boardCode = (String) map.get("extra__boardCode");
+		}
+		if (map.containsKey("extra__nickname")) {
+			this.extra__nickname = (String) map.get("extra__nickname");
 		}
 	}
 

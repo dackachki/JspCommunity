@@ -6,8 +6,29 @@
 
 <%@ include file="../../part/head.jspf"%>
 
-<h1>${pageTitle}</h1>
 
+
+<section class="con-min-width">
+<div class="con">
+<h1>${pageTitle}</h1>
 <h1>${sessionScope.loginedMemberNick} 환영합니다.</h1>
 
+<hr>
+<h3>게시판 바로가기</h#>
+
+	<br>
+	<a href="../article/list?boardId=1" class="highlight">공지사항</a>
+	<br>
+	<a href="../article/list?boardId=2"class="highlight">방명록</a>
+	<br>
+	<a href="../article/list?boardId=3"class="highlight">자유게시판</a>
+	<br>
+
+
+
+
+
+
+</div>
+</section>
 <%@ include file="../../part/foot.jspf"%>

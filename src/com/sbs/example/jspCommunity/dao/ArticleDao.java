@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Board;
+import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
@@ -19,6 +20,7 @@ public class ArticleDao {
 		sql.append(", M.name AS extra__writer");
 		sql.append(", B.name AS extra__boardName");
 		sql.append(", B.code AS extra__boardCode");
+		sql.append(", M.nickname AS extra__nickname");
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
@@ -44,6 +46,7 @@ public class ArticleDao {
 		sql.append(", M.name AS extra__writer");
 		sql.append(", B.name AS extra__boardName");
 		sql.append(", B.code AS extra__boardCode");
+		sql.append(", M.nickname AS extra__nickname");
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
@@ -63,7 +66,7 @@ public class ArticleDao {
 	}
 
 	public Board getBoardByArticleId(int boardId) {
-		
+
 		SecSql sql = new SecSql();
 		sql.append("SELECT * FROM BOARD WHERE ID = ?", boardId);
 
@@ -89,19 +92,19 @@ public class ArticleDao {
 
 	public int articleModify(int articleId, String title, String body, int boardId) {
 		SecSql sql = new SecSql();
-		sql.append("Update article set title =?",title);
-		sql.append(", `body` = ?",body);
+		sql.append("Update article set title =?", title);
+		sql.append(", `body` = ?", body);
 		sql.append(",updateDate = now()");
-		sql.append(",boardId = ?",boardId);
-		sql.append("where id = ?",articleId);
-		
+		sql.append(",boardId = ?", boardId);
+		sql.append("where id = ?", articleId);
+
 		return MysqlUtil.update(sql);
-		
+
 	}
 
 	public List<Board> getAllBoards() {
 		List<Board> boards = new ArrayList<>();
-		
+
 		SecSql sql = new SecSql();
 		sql.append("SELECT * FROM BOARD");
 
@@ -116,10 +119,27 @@ public class ArticleDao {
 	public void deleteArticle(int articleId) {
 		SecSql sql = new SecSql();
 		sql.append("delete from article");
-		sql.append("where id= ?",articleId);;
-		
-		 MysqlUtil.delete(sql);
-		
-		
+		sql.append("where id= ?", articleId);
+		;
+
+		MysqlUtil.delete(sql);
+
 	}
+
+	public int getMemberIdByArticleId(int articleId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT memberId");
+		sql.append("FROM article AS A");
+		sql.append("where id = ?",articleId);
+		
+		int memberId = MysqlUtil.selectRowIntValue(sql);
+
+		
+
+		return memberId;
+
+	
+	}
+
+	
 }

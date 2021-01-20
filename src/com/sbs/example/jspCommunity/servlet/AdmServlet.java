@@ -1,4 +1,4 @@
-package com.sbs.example.jspCommunity.servlet.usr;
+package com.sbs.example.jspCommunity.servlet;
 
 import java.io.IOException;
 
@@ -14,15 +14,15 @@ import com.sbs.example.jspCommunity.controller.MemberController;
 import com.sbs.example.mysqlutil.MysqlUtil;
 
 @WebServlet("/adm/*")
-public class AdminServlet extends HttpServlet {
-	
+public class AdmServlet extends HttpServlet {
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
 
 		String requestUri = req.getRequestURI();
 		String[] requestUriBits = requestUri.split("/");
-		
+
 		if (requestUriBits.length < 5) {
 			resp.getWriter().append("올바른 요청이 아닙니다.");
 			return;
@@ -41,12 +41,11 @@ public class AdminServlet extends HttpServlet {
 			if (actionMethodName.equals("list")) {
 				jspPath = memberController.showList(req, resp);
 			}
-			
 
-}
+		}
 		MysqlUtil.closeConnection();
 
 		RequestDispatcher rd = req.getRequestDispatcher("/jsp/" + jspPath + ".jsp");
 		rd.forward(req, resp);
-}
+	}
 }

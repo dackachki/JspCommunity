@@ -42,5 +42,20 @@ public class MemberDao {
 
 		
 	}
+	
+	public Member getMemberByLoginId(String loginId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT * FROM `member`");
+		sql.append("where loginId =?", loginId);
+
+		Map<String, Object> memberMap = MysqlUtil.selectRow(sql);
+		
+		if(memberMap.isEmpty()) {
+			return null;
+		}
+		Member member = new Member(memberMap);
+		return member;
+
+	}
 
 }

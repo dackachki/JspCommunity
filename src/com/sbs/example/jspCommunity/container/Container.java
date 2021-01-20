@@ -1,6 +1,7 @@
 package com.sbs.example.jspCommunity.container;
 
 import com.sbs.example.jspCommunity.controller.ArticleController;
+import com.sbs.example.jspCommunity.controller.HomeController;
 import com.sbs.example.jspCommunity.controller.MemberController;
 import com.sbs.example.jspCommunity.dao.ArticleDao;
 import com.sbs.example.jspCommunity.dao.MemberDao;
@@ -15,6 +16,7 @@ public class Container {
 	public static MemberController memberController;
 	public static MemberService memberService;
 	public static MemberDao memberDao;
+	public static HomeController homeController;
 	
 	
 	static {
@@ -26,6 +28,8 @@ public class Container {
 		memberDao = new MemberDao();
 		memberService = new MemberService();
 		memberController = new MemberController();
+	
+		homeController = new HomeController();
 	}
 
 
