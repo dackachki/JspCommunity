@@ -57,6 +57,9 @@ public class UsrServlet extends HttpServlet {
 			 else if (actionMethodName.equals("doLogout")) {
 					jspPath = memberController.dologout(req, resp);
 				}
+			 else if (actionMethodName.equals("getLoginIdDup")) {
+					jspPath = memberController.getLoginIdDup(req, resp);
+				}
 
 		} else if (controllerName.equals("article")) {
 			ArticleController articleController = Container.articleController;

@@ -39,19 +39,22 @@ public class MemberController {
 		
 		String name = req.getParameter("membername");
 		String loginId = (String)req.getParameter("loginId");
-		if(memberService.loginIdCheck(loginId) == false) {
-			req.setAttribute("alertMsg","이미 존재하는 아이디 입니다.");
-		}
 		String loginPw = (String)req.getParameter("loginPw");
 		String nickname = (String)req.getParameter("nickname");
 		String email = (String)req.getParameter("email");
-		System.out.printf("%s/%s/%s/%s/%s",name,loginId,loginPw,nickname,email);
+		Member oldMember = memberService.getMemberByLoginId(loginId);
+
+		if (oldMember != null) {
+			req.setAttribute("alertMsg", "해당 로그인 아이디는 이미 사용중입니다.");
+			req.setAttribute("historyBack", true);
+			return "common/redirect";
+		}
 		
 		memberService.memberJoin(name,loginId,loginPw,nickname,email);
 		
 		
-		req.setAttribute("alertMsg", "가입이 완료되었습니다.");
-		req.setAttribute("replaceUrl", String.format("../article/list"));
+		req.setAttribute("alertMsg", "회원 가입이 완료되었습니다.");
+		req.setAttribute("replaceUrl", String.format("login"));
 		return "common/redirect";
 	}
 
@@ -104,10 +107,28 @@ public class MemberController {
 		}
 
 		session.removeAttribute("loginedMemberId");
+		session.removeAttribute("loginedMemberNick");
 
 		req.setAttribute("alertMsg", "로그아웃 되었습니다.");
 		req.setAttribute("replaceUrl", "../home/main");
 		return "common/redirect";
+	}
+	public String getLoginIdDup(HttpServletRequest req, HttpServletResponse resp) {
+		String loginId = req.getParameter("loginId");
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		String data = "";
+		
+		if ( member != null ) {
+			data = "NO";
+		}
+		else {
+			data = "YES";
+		}
+		
+		req.setAttribute("data", data);
+		return "common/pure";
 	}
 	
 

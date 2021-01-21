@@ -37,8 +37,9 @@
 	<header class="con-min-width">
 	<c:if test="${sessionScope.loginedMemberId > 0}">
 		<div class="con">
-			로그인된 회원의 번호 : ${sessionScope.loginedMemberId} <br> 
-			로그인된 회원의 닉네임: ${sessionScope.loginedMemberNick}
+			로그인 회원 번호 : ${sessionScope.loginedMemberId} / 
+			로그인 회원 닉네임: ${sessionScope.loginedMemberNick}
+			<hr>
 		</div>
 	</c:if>
 

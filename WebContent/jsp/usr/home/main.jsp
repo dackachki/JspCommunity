@@ -11,7 +11,13 @@
 <section class="con-min-width">
 <div class="con">
 <h1>${pageTitle}</h1>
-<h1>${sessionScope.loginedMemberNick} 환영합니다.</h1>
+<h1>안녕하세요.</h1>
+<c:if test="${sessionScope.loginedMemberId > 0}">
+		<div class="con">
+	<h1>${sessionScope.loginedMemberNick}님 환영합니다.</h1>			
+		</div>
+		</c:if>
+
 
 <hr>
 <h3>게시판 바로가기</h#>

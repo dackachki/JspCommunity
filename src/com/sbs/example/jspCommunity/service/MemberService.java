@@ -22,7 +22,7 @@ public class MemberService {
 	public boolean loginIdCheck(String loginId) {
 		List<Member> members = getForPrintMembers();
 		for(Member member: members) {
-			if(member.loginId == loginId) {
+			if(member.loginId.equals(loginId)) {
 				return false;
 			}
 		}
@@ -30,7 +30,7 @@ public class MemberService {
 	}
 
 	public void memberJoin(String name, String loginId, String loginPw, String nickname, String email) {
-		memberDao.memberJoin(name,loginId,loginPw,nickname,email);
+		 memberDao.memberJoin(name,loginId,loginPw,nickname,email);
 		
 	}
 

@@ -56,7 +56,6 @@ public class ArticleController {
 		HttpSession session = req.getSession();
 
 		if (session.getAttribute("loginedMemberId") == null) {
-
 			req.setAttribute("alertMsg", "로그인 후 이용해주세요.");
 			req.setAttribute("historyBack", true);
 			return "common/redirect";
@@ -65,7 +64,8 @@ public class ArticleController {
 		Integer boardId = Integer.parseInt(req.getParameter("boardId"));
 		Board board = articleService.getBoardById(boardId);
 		List<Board> boards = articleService.getAllBoards();
-
+		
+		
 		req.setAttribute("boards", boards);
 		req.setAttribute("board", board);
 
@@ -74,14 +74,15 @@ public class ArticleController {
 
 	public String doAdd(HttpServletRequest req, HttpServletResponse resp) {
 		HttpSession session = req.getSession();
-		int memberId = Integer.parseInt(req.getParameter("memberId"));
-		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		if (memberId != loginedMemberId) {
-			req.setAttribute("alertMsg", "작성자만 수정할 수 있습니다.");
+		
+		int memberId = (int)session.getAttribute("loginedMemberId");
+		
+		if (session.getAttribute("loginedMemberId") == null) {
+			req.setAttribute("alertMsg", "로그인 후 이용해주세요.");
 			req.setAttribute("historyBack", true);
 			return "common/redirect";
 		}
-
+		
 		String title = req.getParameter("title");
 		String body = req.getParameter("body");
 
@@ -96,19 +97,28 @@ public class ArticleController {
 	public String modify(HttpServletRequest req, HttpServletResponse resp) {
 
 		HttpSession session = req.getSession();
-
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+		Article article = articleService.getArticleById(articleId);
+		
+		
 		if (session.getAttribute("loginedMemberId") == null) {
 
 			req.setAttribute("alertMsg", "로그인 후 이용해주세요.");
 			req.setAttribute("historyBack", true);
 			return "common/redirect";
 		}
-
-		int articleId = Integer.parseInt(req.getParameter("articleId"));
-		List<Board> boards = articleService.getAllBoards();
-
-		Article article = articleService.getArticleById(articleId);
+		
 		int memberId = article.getMemberId();
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		
+		if (memberId != loginedMemberId) {
+			req.setAttribute("alertMsg", "작성자만 수정할 수 있습니다.");
+			req.setAttribute("historyBack", true);
+			return "common/redirect";
+		}
+		
+		
+		List<Board> boards = articleService.getAllBoards();
 
 		req.setAttribute("memberId", memberId);
 		req.setAttribute("boards", boards);
