@@ -44,6 +44,7 @@ public class MemberController {
 		String email = (String)req.getParameter("email");
 		Member oldMember = memberService.getMemberByLoginId(loginId);
 
+		
 		if (oldMember != null) {
 			req.setAttribute("alertMsg", "해당 로그인 아이디는 이미 사용중입니다.");
 			req.setAttribute("historyBack", true);
@@ -121,6 +122,9 @@ public class MemberController {
 		String data = "";
 		
 		if ( member != null ) {
+			data = "NO";
+		}
+		else if (loginId.trim().length() == 0) {
 			data = "NO";
 		}
 		else {

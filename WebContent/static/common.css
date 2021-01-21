@@ -55,6 +55,9 @@ a {
 	margin-left: auto;
 	margin-right: auto;
 }
+.center{
+	text-align:center;
+}
 /* 라이브러리 끝 */
 
 /* 커스텀 시작 */
@@ -69,4 +72,6 @@ a {
 .con {
 	max-width: var(--site-width);
 }
+
+
 /* 커스텀 끝 */

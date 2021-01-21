@@ -7,11 +7,14 @@
 
 <%@ include file="../../part/head.jspf"%>
 
-<hr>
+
 	<section class="menu con-min-width">
 	<div class="con">		
 	
-	<div>게시판 변경</div>
+	<div class="con">
+	<a>게시판 변경</a>
+	<a>현재 게시판: ${boardName}</a></div>
+			
 
 		<select name="boardId"
 			onchange="if(this.value) location.href=(this.value)">
@@ -22,9 +25,11 @@
 
 			</c:forEach>
 		</select>
+		<hr>
 		</div>
+		
 	</section>
-	<hr />
+	
 	<div class="con-min-width">
 	<div class="con">
 	<h1>${boardName} 게시물 리스트</h1>

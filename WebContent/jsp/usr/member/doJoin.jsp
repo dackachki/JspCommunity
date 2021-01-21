@@ -23,13 +23,13 @@
 			
 			function(data) {
 				
-				if ( data != "YES" ) {
+				if ( data == "YES" ) {
 					
-					alert("해당 로그인 아이디는 사용중입니다.");
+					alert("해당 로그인 아이디는 사용가능합니다.");
 					DoJoinForm__checkedLoginId = loginId;
 				}
 				else {
-					alert("???.");
+					alert("해당 로그인 아이디는 사용중입니다.");
 				}
 			},
 			"html"
