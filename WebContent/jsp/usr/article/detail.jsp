@@ -9,7 +9,8 @@
 	<div class="con">
 
 	<h1>게시물 정보</h1>
-
+	
+	
 		번호 :
 		${article.getId()}
 		<br />
@@ -28,9 +29,11 @@
 		제목 :
 		${article.getTitle()}
 		<br />
-		내용 :
-			${article.getBody()}
+		<div class="article-detail__body">
+		내용 : ${article.getBody()}
 		<hr />
+	
+	</div>
 	</div>
 	
 	
@@ -48,16 +51,27 @@
 
 		<a href="list?boardId=${article.getBoardId()}" class="highlight">리스트 </a>|
 		
-		
+		<c:if test="${sessionScope.loginedMemberId == memberId}">
 		<a href="modify?articleId=${article.getId()}" class="highlight">글 수정 </a>|
 		<a class="highlight" href="delete?articleId=${article.getId()}" onclick="return confirm('게시물을 삭제하시겠습니까?');">글 삭제</a>
-
+	</c:if>
 		
 
 </div>
 	</div>
 </div>
+<script>
+	function ArticleDetail__Body__init() {
+		var viewer = new toastui.Editor.factory({
+			el : document.querySelector('.article-detail__body'),
+			initialValue : `${article-detail__body}`,
+			viewer : true
+		});
+	}
+
+	ArticleDetail__Body__init();
+</script> 
 
 
-</body>
-</html>
+
+<%@ include file="../../part/foot.jspf"%>

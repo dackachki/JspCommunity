@@ -27,26 +27,48 @@ public class MemberDao {
 		return members;
 	}
 
-	public void memberJoin(String name, String loginId, String loginPw, String nickname, String email) {
-		
-		MysqlUtil.update(new SecSql().append("insert into `member` set regDate =now(), updateDate =now(), name = ?, loginId = ?,loginPw = ?, nickname = ?, email = ?;",name,loginId,loginPw,nickname,email));
+	public int memberJoin(String name, String loginId, String loginPw, String nickname, String email) {
 
-		
+		SecSql sql = new SecSql();
+		sql.append("INSERT INTO `member`");
+		sql.append("SET regDate = NOW()");
+		sql.append(", updateDate = NOW()");
+		sql.append(", loginId = ?", loginId);
+		sql.append(", loginPw = ?", loginPw);
+		sql.append(", nickname = ?", nickname);
+		sql.append(", `name` = ?", name);
+		sql.append(", email = ?", email);
+
+		return MysqlUtil.insert(sql);
 	}
-	
+
 	public Member getMemberByLoginId(String loginId) {
 		SecSql sql = new SecSql();
 		sql.append("SELECT * FROM `member`");
 		sql.append("where loginId =?", loginId);
 
 		Map<String, Object> memberMap = MysqlUtil.selectRow(sql);
-		
-		if(memberMap.isEmpty()) {
+
+		if (memberMap.isEmpty()) {
 			return null;
 		}
 		Member member = new Member(memberMap);
 		return member;
 
+	}
+
+	public Member getMemberById(int loginedMemberId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT * FROM `member`");
+		sql.append("where id =?", loginedMemberId);
+
+		Map<String, Object> memberMap = MysqlUtil.selectRow(sql);
+
+		if (memberMap.isEmpty()) {
+			return null;
+		}
+		Member member = new Member(memberMap);
+		return member;
 	}
 
 }

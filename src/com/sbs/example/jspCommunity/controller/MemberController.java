@@ -37,7 +37,7 @@ public class MemberController {
 	public String doJoin(HttpServletRequest req, HttpServletResponse resp) {
 	
 		
-		String name = req.getParameter("membername");
+		String name = req.getParameter("name");
 		String loginId = (String)req.getParameter("loginId");
 		String loginPw = (String)req.getParameter("loginPw");
 		String nickname = (String)req.getParameter("nickname");

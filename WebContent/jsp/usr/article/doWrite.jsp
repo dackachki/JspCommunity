@@ -7,7 +7,7 @@
 
 <%@ include file="../../part/head.jspf"%>
 
-	
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	
 	<form class="con-min-width" action="doAdd" method="POST">	
 	<div class="con">
@@ -18,11 +18,10 @@
 	제목:<input type="text" name="title" maxlength="30">
 	<br>
 	<br>
-	내용:<textarea name="body" maxlength="3000" placeholder="내용 입력">  </textarea>
+	내용:<div name="body" id="editor">
 	<br>
-	
-	
-	게시판 선택
+	</div>
+		게시판 선택
 	<select name="boardId" >
 			
 		<c:forEach var="board" items="${boards}">
@@ -39,5 +38,27 @@
 	</div>
 	</div>
 </form>
-</body>
-</html>
+<script>
+const content = [].join('\n');
+
+const editor = new toastui.Editor({
+    el: document.querySelector('#editor'),
+    previewStyle: 'vertical',
+    initialEditType: "wysiwyg",
+    height: '500px',
+    initialValue: content
+});
+
+const viewer = toastui.Editor.factory({
+    el: document.querySelector('#viewer'),
+    viewer: true,
+    height: '500px',
+    initialValue: content
+});
+
+function ToView()
+{
+    viewer.setMarkdown(editor.getMarkdown());
+};
+</script>
+<%@ include file="../../part/foot.jspf"%>

@@ -110,16 +110,7 @@
 			
 			return;
 		}
-		
-		form.cellphoneNo.value = form.cellphoneNo.value.trim();
-	
-		if ( form.cellphoneNo.value.length == 0 ) {
-			alert('전화번호를 입력해주세요.');
-			form.cellphoneNo.focus();
-			
-			return;
-		}
-		
+
 		form.submit();
 		DoJoinForm__submited = true;
 	}
@@ -188,13 +179,7 @@
 
 		<hr />
 
-		<div>
-			<div>전화번호</div>
-			<div>
-				<input name="cellphoneNo" type="number" maxlength="100"
-					placeholder="전화번호를 입력해주세요." />
-			</div>
-		</div>
+		
 
 		<hr />
 

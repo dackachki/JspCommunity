@@ -8,13 +8,14 @@
 <%@ include file="../../part/head.jspf"%>
 
 
-	<section class="menu con-min-width">
-	<div class="con">		
-	
+<section class="menu con-min-width">
 	<div class="con">
-	<a>게시판 변경</a>
-	<a>현재 게시판: ${boardName}</a></div>
-			
+
+		<div class="con">
+			<a>게시판 변경</a> <a>현재 게시판: ${boardName}</a>
+		</div>
+
+
 
 		<select name="boardId"
 			onchange="if(this.value) location.href=(this.value)">
@@ -26,32 +27,24 @@
 			</c:forEach>
 		</select>
 		<hr>
-		</div>
-		
-	</section>
-	
-	<div class="con-min-width">
+	</div>
+
+</section>
+
+<div class="con-min-width">
 	<div class="con">
-	<h1>${boardName} 게시물 리스트</h1>
-
-	<c:forEach var="article" items="${articles}">
-		<div>
-			번호 : ${article.getId()}
-			<br />
-			작성날짜 : ${article.getRegDate()}
-			<br />
-			갱신날짜 : ${article.getUpdateDate()}
-			<br />
-			작성자 : ${article.getExtra__nickname()}
-			<br />
-			제목 :
-			<a class="highlight" href="detail?articleId=${article.getId()}">${article.getTitle()}</a>
-			<hr />
-		</div>
-	</c:forEach>
+		<h1>${boardName}게시물 리스트</h1>
+		
+		<hr>
+		<c:forEach var="article" items="${articles}">
+			<div>
+				번호 : ${article.getId()} <br /> 작성날짜 : ${article.getRegDate()} <br />
+				갱신날짜 : ${article.getUpdateDate()} <br /> 작성자 :
+				${article.getExtra__nickname()} <br /> 제목 : <a class="highlight"
+					href="detail?articleId=${article.getId()}">${article.getTitle()}</a>
+				<hr />
+			</div>
+		</c:forEach>
+	</div>
 </div>
-</div>
-
-
-</body>
-</html>
+<%@ include file="../../part/foot.jspf"%>

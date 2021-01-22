@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Board;
+import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.jspCommunity.service.ArticleService;
 
 public class ArticleController {
@@ -44,8 +45,7 @@ public class ArticleController {
 		String boardName = articleService.getBoardNameById(articleId);
 		int memberId = articleService.getMemberIdByArticleId(articleId);
 		Article article = articleService.getArticleById(articleId);
-		
-		
+
 		req.setAttribute("boardName", boardName);
 		req.setAttribute("memberId", memberId);
 		req.setAttribute("article", article);
@@ -55,17 +55,11 @@ public class ArticleController {
 	public String add(HttpServletRequest req, HttpServletResponse resp) {
 		HttpSession session = req.getSession();
 
-		if (session.getAttribute("loginedMemberId") == null) {
-			req.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
-		}
-
 		Integer boardId = Integer.parseInt(req.getParameter("boardId"));
 		Board board = articleService.getBoardById(boardId);
 		List<Board> boards = articleService.getAllBoards();
 		
-		
+		req.setAttribute("boardId", boardId);
 		req.setAttribute("boards", boards);
 		req.setAttribute("board", board);
 
@@ -74,15 +68,9 @@ public class ArticleController {
 
 	public String doAdd(HttpServletRequest req, HttpServletResponse resp) {
 		HttpSession session = req.getSession();
-		
-		int memberId = (int)session.getAttribute("loginedMemberId");
-		
-		if (session.getAttribute("loginedMemberId") == null) {
-			req.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
-		}
-		
+
+		Member member = (Member) req.getAttribute("loginedMember");
+		int memberId = member.getId();
 		String title = req.getParameter("title");
 		String body = req.getParameter("body");
 
@@ -96,28 +84,18 @@ public class ArticleController {
 
 	public String modify(HttpServletRequest req, HttpServletResponse resp) {
 
-		HttpSession session = req.getSession();
 		int articleId = Integer.parseInt(req.getParameter("articleId"));
 		Article article = articleService.getArticleById(articleId);
-		
-		
-		if (session.getAttribute("loginedMemberId") == null) {
 
-			req.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
-		}
-		
 		int memberId = article.getMemberId();
-		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+
 		if (memberId != loginedMemberId) {
 			req.setAttribute("alertMsg", "작성자만 수정할 수 있습니다.");
 			req.setAttribute("historyBack", true);
 			return "common/redirect";
 		}
-		
-		
+
 		List<Board> boards = articleService.getAllBoards();
 
 		req.setAttribute("memberId", memberId);
@@ -136,8 +114,6 @@ public class ArticleController {
 		String title = req.getParameter("title");
 		String body = req.getParameter("body");
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
-
-		String boardName = articleService.getBoardNameById(articleId);
 
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 
@@ -162,19 +138,11 @@ public class ArticleController {
 	}
 
 	public String delete(HttpServletRequest req, HttpServletResponse resp) {
-		
-		HttpSession session = req.getSession();
-		if (session.getAttribute("loginedMemberId") == null) {
 
-			req.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
-		}
-		
 		int articleId = Integer.parseInt(req.getParameter("articleId"));
-		
-		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		
+
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+
 		int memberId = articleService.getMemberIdByArticleId(articleId);
 		if (memberId != loginedMemberId) {
 			req.setAttribute("alertMsg", "작성자만 삭제할 수 있습니다.");
