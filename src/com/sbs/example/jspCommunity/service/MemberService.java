@@ -29,8 +29,8 @@ public class MemberService {
 		return true;
 	}
 
-	public void memberJoin(String name, String loginId, String loginPw, String nickname, String email) {
-		 memberDao.memberJoin(name,loginId,loginPw,nickname,email);
+	public void memberJoin(String name, String loginId, String loginPw, String nickname, String email, String cellphoneNo) {
+		 memberDao.memberJoin(name,loginId,loginPw,nickname,email,cellphoneNo);
 		
 	}
 
@@ -41,6 +41,19 @@ public class MemberService {
 
 	public Member getMemberById(int loginedMemberId) {
 		return memberDao.getMemberById(loginedMemberId);
+	}
+
+	public Member getMemberByNameAndEmail(String name, String email) {
+		return memberDao.getMemberByNameAndEmail(name,email);
+	}
+
+	public Member getMemberByNameAndLoginId(String loginId, String name) {
+		return memberDao.getMemberByNameAndLoginId(loginId,name);
+	}
+
+	public void modifyPw(String loginPw, int id) {
+		memberDao.modifyPw(loginPw,id);
+		
 	}
 
 }

@@ -31,7 +31,6 @@ public class Article {
 		this.body = (String) map.get("body");
 		this.memberId = (int) map.get("memberId");
 		this.boardId = (int) map.get("boardId");
-		
 		this.hitsCount = (int) map.get("hitsCount");
 		
 

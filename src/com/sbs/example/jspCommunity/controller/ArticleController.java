@@ -1,5 +1,6 @@
 package com.sbs.example.jspCommunity.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,18 +22,18 @@ public class ArticleController {
 	}
 
 	public String showList(HttpServletRequest req, HttpServletResponse resp) {
-		int boardId = Integer.parseInt(req.getParameter("boardId"));
-		String boardName = "";
-		List<Article> articles = articleService.getForPrintArticlesByBoardId(boardId);
+		String searchKeyword = req.getParameter("searchKeyword");
+		String searchKeywordType = req.getParameter("searchKeywordType");
 		List<Board> boards = articleService.getAllBoards();
-		for (Board board : boards) {
-			if (board.getId() == boardId) {
-				boardName = board.getName();
-			}
-		}
-
-		req.setAttribute("boardName", boardName);
+		int boardId = Integer.parseInt(req.getParameter("boardId"));
+		Board board = articleService.getBoardById(boardId);
+		int totalCount = articleService.getArticlesCountByBoardId(boardId, searchKeywordType, searchKeyword);
+		List<Article> articles = articleService.getForPrintArticlesByBoardId(boardId, searchKeywordType, searchKeyword);
+		
+		req.setAttribute("board", board);
+		req.setAttribute("boardName", board.getName());
 		req.setAttribute("boards", boards);
+		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("articles", articles);
 
 		return "usr/article/list";
@@ -40,7 +41,7 @@ public class ArticleController {
 
 	public String detail(HttpServletRequest req, HttpServletResponse resp) {
 
-		HttpSession session = req.getSession();
+		
 		int articleId = Integer.parseInt(req.getParameter("articleId"));
 		String boardName = articleService.getBoardNameById(articleId);
 		int memberId = articleService.getMemberIdByArticleId(articleId);
@@ -53,7 +54,7 @@ public class ArticleController {
 	}
 
 	public String add(HttpServletRequest req, HttpServletResponse resp) {
-		HttpSession session = req.getSession();
+		
 
 		Integer boardId = Integer.parseInt(req.getParameter("boardId"));
 		Board board = articleService.getBoardById(boardId);
@@ -67,7 +68,7 @@ public class ArticleController {
 	}
 
 	public String doAdd(HttpServletRequest req, HttpServletResponse resp) {
-		HttpSession session = req.getSession();
+		
 
 		Member member = (Member) req.getAttribute("loginedMember");
 		int memberId = member.getId();
@@ -75,6 +76,7 @@ public class ArticleController {
 		String body = req.getParameter("body");
 
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
+		
 		int newArticleId = articleService.add(title, body, memberId, boardId);
 
 		req.setAttribute("alertMsg", newArticleId + "번 게시물이 생성되었습니다.");

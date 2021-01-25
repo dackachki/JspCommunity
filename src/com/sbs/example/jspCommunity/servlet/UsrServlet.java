@@ -21,27 +21,42 @@ public class UsrServlet extends DispatcherServlet {
 
 			if (actionMethodName.equals("join")) {
 				jspPath = memberController.join(req, resp);
-				
+
 			} else if (actionMethodName.equals("doJoin")) {
-				
+
 				jspPath = memberController.doJoin(req, resp);
 			} else if (actionMethodName.equals("login")) {
-				
+
 				jspPath = memberController.login(req, resp);
 			} else if (actionMethodName.equals("doLogin")) {
-				
+
 				jspPath = memberController.doLogin(req, resp);
 			} else if (actionMethodName.equals("logout")) {
-				
+
 				jspPath = memberController.logout(req, resp);
 			} else if (actionMethodName.equals("doLogout")) {
-				
+
 				jspPath = memberController.dologout(req, resp);
 			} else if (actionMethodName.equals("getLoginIdDup")) {
-				
+
 				jspPath = memberController.getLoginIdDup(req, resp);
+			} else if (actionMethodName.equals("findLoginId")) {
+
+				jspPath = memberController.findLoginId(req, resp);
+			} else if (actionMethodName.equals("doFindLoginId")) {
+
+				jspPath = memberController.doFindLoginId(req, resp);
+			}
+			else if (actionMethodName.equals("findLoginPw")) {
+
+				jspPath = memberController.findLoginPw(req, resp);
+			}
+			else if (actionMethodName.equals("doFindLoginPw")) {
+
+				jspPath = memberController.doFindLoginPw(req, resp);
 			}
 
+			
 		} else if (controllerName.equals("article")) {
 			ArticleController articleController = Container.articleController;
 

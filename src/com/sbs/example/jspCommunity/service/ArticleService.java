@@ -14,9 +14,6 @@ public class ArticleService {
 		articleDao = Container.articleDao;
 	}
 
-	public List<Article> getForPrintArticlesByBoardId(int boardId) {
-		return articleDao.getForPrintArticlesByBoardId(boardId);
-	}
 
 	public int add(String title, String body, int memberId, int boardId) {
 	return articleDao.add(title, body, memberId, boardId);
@@ -61,5 +58,14 @@ public class ArticleService {
 
 	public int getMemberIdByArticleId(int articleId) {
 		return articleDao.getMemberIdByArticleId(articleId);
+	}
+
+	public int getArticlesCountByBoardId(int boardId, String searchKeywordType, String searchKeyword) {
+		return articleDao.getArticlesCountByBoardId(boardId,searchKeywordType,searchKeyword);
+		
+	}
+
+	public List<Article> getForPrintArticlesByBoardId(int boardId, String searchKeywordType, String searchKeyword) {
+		return articleDao.getForPrintArticlesByBoardId(boardId,searchKeywordType,searchKeyword);
 	}
 }

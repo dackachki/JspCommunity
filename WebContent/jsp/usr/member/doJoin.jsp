@@ -5,6 +5,8 @@
 <%@ include file="../../part/head.jspf"%>
 <h1>${pageTitle}</h1>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>	
+
 <div>
 	<script>
 	let DoJoinForm__submited = false;
@@ -110,7 +112,10 @@
 			
 			return;
 		}
-
+		form.loginPwReal.value = sha256(form.loginPw.value);
+		form.loginPw.value ="";
+		form.loginPwConfirm.value ="";	
+		
 		form.submit();
 		DoJoinForm__submited = true;
 	}
@@ -122,6 +127,7 @@
 			<div>
 				<input name="loginId" type="text" maxlength="50"
 					placeholder="로그인 아이디를 입력해주세요." />
+					<input type="hidden" name="loginPwReal" />
 				
 				<button onclick="DoJoinForm__checkLoginIdDup(this);" name="btnLoginIdDupCheck" type="button">중복체크</button>
 			</div>
@@ -178,7 +184,14 @@
 		</div>
 
 		<hr />
-
+		<div>
+			<div>핸드폰 번호</div>
+			<div>
+			<input name="cellphoneNo" type="tel" maxlength="100"
+					placeholder="전화번호를 입력해주세요." />
+			
+			</div>
+		</div>
 		
 
 		<hr />
