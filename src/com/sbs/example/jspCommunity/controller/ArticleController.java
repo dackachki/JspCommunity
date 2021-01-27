@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sbs.example.Util.Util;
 import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Board;
@@ -15,13 +16,19 @@ import com.sbs.example.jspCommunity.service.ArticleService;
 
 public class ArticleController {
 	private ArticleService articleService;
+	private List<Article> articlesInPage = new ArrayList<>();
 
 	public ArticleController() {
 		articleService = Container.articleService;
 
 	}
-
+	
+	
 	public String showList(HttpServletRequest req, HttpServletResponse resp) {
+		articlesInPage.clear();
+		Article article;
+		int pageNo = Util.getAsInt(req.getParameter("pageNo"),1);
+		
 		String searchKeyword = req.getParameter("searchKeyword");
 		String searchKeywordType = req.getParameter("searchKeywordType");
 		List<Board> boards = articleService.getAllBoards();
@@ -30,18 +37,50 @@ public class ArticleController {
 		int totalCount = articleService.getArticlesCountByBoardId(boardId, searchKeywordType, searchKeyword);
 		List<Article> articles = articleService.getForPrintArticlesByBoardId(boardId, searchKeywordType, searchKeyword);
 		
+
+		double lastItem = articles.size();
+		double divideV= 10;
+		int page =(int)Math.ceil(lastItem /divideV);
+		if(page <= 1) {
+			page = 1;
+		}
+		
+		int itemsInAPage = 10;
+		int startPos = articles.size();
+		
+		
+		startPos = (pageNo * itemsInAPage) - 9;
+		if(pageNo == 1) {
+			startPos = 1;
+		}
+		int endPos = startPos+itemsInAPage;
+		
+		if (endPos > articles.size()) {
+			endPos = articles.size();
+		}
+	
+		for(int i = startPos;i < endPos;i++ ) {
+			article = articles.get(i);
+			articlesInPage.add(article);
+			
+		}
+		
+		System.out.println(page);
+		System.out.println(startPos);
+		System.out.println(endPos);
+		
+		req.setAttribute("page", page);
 		req.setAttribute("board", board);
 		req.setAttribute("boardName", board.getName());
 		req.setAttribute("boards", boards);
 		req.setAttribute("totalCount", totalCount);
-		req.setAttribute("articles", articles);
-
+		req.setAttribute("articles", articlesInPage);
+		
 		return "usr/article/list";
 	}
 
 	public String detail(HttpServletRequest req, HttpServletResponse resp) {
 
-		
 		int articleId = Integer.parseInt(req.getParameter("articleId"));
 		String boardName = articleService.getBoardNameById(articleId);
 		int memberId = articleService.getMemberIdByArticleId(articleId);
@@ -54,12 +93,11 @@ public class ArticleController {
 	}
 
 	public String add(HttpServletRequest req, HttpServletResponse resp) {
-		
 
 		Integer boardId = Integer.parseInt(req.getParameter("boardId"));
 		Board board = articleService.getBoardById(boardId);
 		List<Board> boards = articleService.getAllBoards();
-		
+
 		req.setAttribute("boardId", boardId);
 		req.setAttribute("boards", boards);
 		req.setAttribute("board", board);
@@ -68,7 +106,6 @@ public class ArticleController {
 	}
 
 	public String doAdd(HttpServletRequest req, HttpServletResponse resp) {
-		
 
 		Member member = (Member) req.getAttribute("loginedMember");
 		int memberId = member.getId();
@@ -76,7 +113,7 @@ public class ArticleController {
 		String body = req.getParameter("body");
 
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
-		
+
 		int newArticleId = articleService.add(title, body, memberId, boardId);
 
 		req.setAttribute("alertMsg", newArticleId + "번 게시물이 생성되었습니다.");

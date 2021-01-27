@@ -29,7 +29,7 @@
 		제목 :
 		${article.getTitle()}
 		<br />
-		<div class="article-detail__body">
+		<div>
 		내용 : ${article.getBody()}
 		<hr />
 	
@@ -60,18 +60,5 @@
 </div>
 	</div>
 </div>
-<script>
-	function ArticleDetail__Body__init() {
-		var viewer = new toastui.Editor.factory({
-			el : document.querySelector('.article-detail__body'),
-			initialValue : `${article-detail__body}`,
-			viewer : true
-		});
-	}
-
-	ArticleDetail__Body__init();
-</script> 
-
-
 
 <%@ include file="../../part/foot.jspf"%>

@@ -66,7 +66,7 @@
 		<select name="boardId" onchange="if(this.value) location.href=(this.value)">
 			<option>선택</option>
 			<c:forEach var="Oboard" items="${boards}">
-				<option value="list?boardId=${Oboard.getId()}">
+				<option value="list?boardId=${Oboard.getId()}&pageNo=1">
 					${Oboard.getName()}</option>
 
 			</c:forEach>
@@ -85,11 +85,19 @@
 			<div>
 				번호 : ${article.getId()} <br /> 작성날짜 : ${article.getRegDate()} <br />
 				갱신날짜 : ${article.getUpdateDate()} <br /> 
-				작성자 : ${article.getExtra__nickname()} <br /> 제목 : <a class="highlight"
+				작성자 : ${article.getExtra__writer()} <br />
+				제목 : <a class="highlight"
 					href="detail?articleId=${article.getId()}">${article.getTitle()}</a>
 				<hr />
 			</div>
 		</c:forEach>
+	</div>
+	
+		<div class="con con-min-width" style="text-align:center;">
+		|&nbsp;<c:forEach var="i" begin="1" end="${page}">
+			<a href="list?boardId=${board.getId()}&pageNo=${i}">${i}</a>&nbsp; | &nbsp;
+		</c:forEach>
+	<hr>
 	</div>
 </div>
 <%@ include file="../../part/foot.jspf"%>

@@ -3,11 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="pageTitle" value="회원가입" />
 <%@ include file="../../part/head.jspf"%>
-<h1>${pageTitle}</h1>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>	
-
-<div>
 	<script>
 	let DoJoinForm__submited = false;
 	let DoJoinForm__checkedLoginId = "";
@@ -119,7 +116,12 @@
 		form.submit();
 		DoJoinForm__submited = true;
 	}
+
+	
 	</script>
+	
+	<div class="con con-min-width">
+	<h1>${pageTitle}</h1>
 	<form action="doJoin" method="POST" onsubmit="DoJoinForm__submit(this); return false;">
 		<hr />
 		<div>

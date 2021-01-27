@@ -25,17 +25,24 @@
 
 
 <hr>
-<h3>게시판 바로가기</h#>
+	<h2>게시판 바로가기</h2>
+	
+	<ul class="board-list">
+	
+	<li>
+	<a href="../article/list?boardId=1&pageNo=1" class="highlight">공지사항</a>
+		
+	</li>
+	<li>
+	<a href="../article/list?boardId=2&pageNo=1"class="highlight">방명록</a>
+	<br>
+	</li>
+	<li>
+	<a href="../article/list?boardId=3&pageNo=1"class="highlight">자유게시판</a>
+	<br>
+</li>
 
-	<br>
-	<a href="../article/list?boardId=1" class="highlight">공지사항</a>
-	<br>
-	<a href="../article/list?boardId=2"class="highlight">방명록</a>
-	<br>
-	<a href="../article/list?boardId=3"class="highlight">자유게시판</a>
-	<br>
-
-
+</ul>
 
 
 
