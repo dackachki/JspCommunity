@@ -29,6 +29,7 @@ public class ArticleController {
 		Article article;
 		int pageNo = Util.getAsInt(req.getParameter("pageNo"),1);
 		
+		
 		String searchKeyword = req.getParameter("searchKeyword");
 		String searchKeywordType = req.getParameter("searchKeywordType");
 		List<Board> boards = articleService.getAllBoards();
@@ -51,7 +52,7 @@ public class ArticleController {
 		
 		startPos = (pageNo * itemsInAPage) - 9;
 		if(pageNo == 1) {
-			startPos = 1;
+			startPos = 0;
 		}
 		int endPos = startPos+itemsInAPage;
 		
@@ -65,9 +66,10 @@ public class ArticleController {
 			
 		}
 		
-		System.out.println(page);
-		System.out.println(startPos);
-		System.out.println(endPos);
+		System.out.printf("total page=%d\n",page);
+		System.out.printf("current page=%d\n",pageNo);
+		System.out.printf("start=%d\n",startPos);
+		System.out.printf("end=%d\n",endPos);
 		
 		req.setAttribute("page", page);
 		req.setAttribute("board", board);
@@ -75,7 +77,13 @@ public class ArticleController {
 		req.setAttribute("boards", boards);
 		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("articles", articlesInPage);
+		if(searchKeyword == null ) {
 		
+		}
+		else {
+			req.setAttribute("searchKeyword",searchKeyword);
+			req.setAttribute("searchKeywordType",searchKeywordType);
+		}
 		return "usr/article/list";
 	}
 
@@ -97,7 +105,10 @@ public class ArticleController {
 		Integer boardId = Integer.parseInt(req.getParameter("boardId"));
 		Board board = articleService.getBoardById(boardId);
 		List<Board> boards = articleService.getAllBoards();
-
+		Member member = (Member) req.getAttribute("loginedMember");
+		int memberId = member.getId();
+		
+		req.setAttribute("memberId",memberId);
 		req.setAttribute("boardId", boardId);
 		req.setAttribute("boards", boards);
 		req.setAttribute("board", board);
@@ -116,6 +127,7 @@ public class ArticleController {
 
 		int newArticleId = articleService.add(title, body, memberId, boardId);
 
+		
 		req.setAttribute("alertMsg", newArticleId + "번 게시물이 생성되었습니다.");
 		req.setAttribute("replaceUrl", String.format("detail?articleId=%d", newArticleId));
 		return "common/redirect";

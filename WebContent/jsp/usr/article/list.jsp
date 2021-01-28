@@ -28,26 +28,35 @@
 						form.searchKeyword.focus();
 						return;
 					}
+					if(searchKeyword.value.length >= 1 ){
+						form.searchKeyword.value = searchKeyword;
+
+						}
 
 					form.submit();
 					DoSearchForm__submited = true;
 				}
+				const param__searchKeywordType = '${param.searchKeywordType}';
+
+				if (param__searchKeywordType) {
+					$('select[name="searchKeywordType"]').val(
+							param__searchKeywordType);
+				}
+
+				
 			</script>
+		
+			
 			<form action="" onsubmit="DoSearchForm__submit(this); return false;">
-				<input type="hidden" name="boardId" value="${param.boardId}" /> <select
+				<input type="hidden" name="boardId" value="${param.boardId}" />
+				
+				 <select
 					name="searchKeywordType">
 					<option value="titleAndBody">제목+본문</option>
 					<option value="title">제목</option>
 					<option value="body">본문</option>
 				</select>
-				<script>
-					const param__searchKeywordType = '${param.searchKeywordType}';
-
-					if (param__searchKeywordType) {
-						$('select[name="searchKeywordType"]').val(
-								param__searchKeywordType);
-					}
-				</script>
+			
 				<input value="${param.searchKeyword}" type="text"
 					name="searchKeyword" placeholder="검색어를 입력해주세요." /> <input
 					type="submit" value="검색" />
@@ -96,6 +105,10 @@
 		<div class="con con-min-width" style="text-align:center;">
 		|&nbsp;<c:forEach var="i" begin="1" end="${page}">
 			<a href="list?boardId=${board.getId()}&pageNo=${i}">${i}</a>&nbsp; | &nbsp;
+			<c:if test="${not empty searchKeyword}">
+				<a href="list?boardId=${board.getId()}&pageNo=${i}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}">${i}</a>&nbsp; | &nbsp;
+				
+				</c:if>
 		</c:forEach>
 	<hr>
 	</div>

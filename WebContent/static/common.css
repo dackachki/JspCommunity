@@ -72,6 +72,14 @@ a {
 .con {
 	max-width: var(--site-width);
 }
-
+.toast-ui-viewer{
+	background-color:white;
+	
+}
+.article-info > div{
+	display:inline-block;
+	
+	
+}
 
 /* 커스텀 끝 */

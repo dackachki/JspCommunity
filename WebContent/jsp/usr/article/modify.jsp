@@ -10,44 +10,43 @@
 <%@ include file="../../part/head.jspf"%>
 
 
-	<h1>${articleId}번 게시글 수정</h1>
-	<form action="doModify" method="POST">
+<h1>${articleId}번게시글 수정</h1>
+<form action="doModify" method="POST">
 
 
-		<div class="title">
-			<input type="hidden" name="articleId" value=${articleId}>
-			<span> 제목: </span>
-
-			<input type="text" name="title" maxlength="30"
-				placeholder="${article.getTitle()}">
-		</div>
-		<hr />
+	<div class="title">
+		<input type="hidden" name="articleId" value="${articleId}"> <span>
+			제목: </span> <input type="text" name="title" maxlength="30"
+			placeholder="${article.getTitle()}">
+	</div>
+	<hr />
 
 
-		<div class="articlebody">
-
-			<span>내용:</span>
-			<textarea name="body" maxlength="3000"
-				placeholder="${article.getBody()}">  </textarea>
-		</div>
-
-		<hr />
-		<div>게시판 변경</div>
+	<div>
+		<div>내용</div>
 		<div>
-			<select name="boardId">
+			<script type="text/x-template">
 
-				<option value="0">선택</option>
-				<c:forEach var="board" items="${boards}">
-
-					<option value="${board.getId()}">${board.getName()}</option>
-				</c:forEach>
-			</select>
-
-
-			<input value="수정하기" type="submit">
-			<button type="button" onclick="history.back();">뒤로가기</button>
-
-
+					${article.getBody()}
+</script>
+			<div class="toast-ui-editor"></div>
 		</div>
-	</form>
+	</div>
+
+	<hr />
+	<div>게시판 변경</div>
+	<div>
+		<select name="boardId">
+
+			<option value="0">선택</option>
+			<c:forEach var="board" items="${boards}">
+
+				<option value="${board.getId()}">${board.getName()}</option>
+			</c:forEach>
+		</select> <input value="수정하기" type="submit">
+		<button type="button" onclick="history.back();">뒤로가기</button>
+
+
+	</div>
+</form>
 <%@ include file="../../part/foot.jspf"%>
