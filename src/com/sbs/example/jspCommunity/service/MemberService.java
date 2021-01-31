@@ -56,4 +56,9 @@ public class MemberService {
 		
 	}
 
+	public void memberModify(int id, String securedPw, String nickname, String email, String cellPhoneNo, boolean isUsingTempPw) {
+		memberDao.memberModify(id,securedPw,nickname,email,cellPhoneNo,isUsingTempPw);
+		
+	}
+
 }

@@ -26,11 +26,11 @@ public class EmailService {
 		
 		String title = CommuTitle+"임시 패스워드입니다.";
 		int tempPwLengh=8;
+		String changedPw = Util.getTempPassword(tempPwLengh);
+		String body = "임시 패스워드 :" + changedPw;
 		
-		String body = "임시 패스워드 : " + Util.getTempPassword(tempPwLengh);
 		send(member.getEmail(),title,body);
-		System.out.println("발송");
-		return body;
+		return changedPw;
 	}
 	
 	

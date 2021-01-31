@@ -4,8 +4,10 @@ import com.sbs.example.jspCommunity.controller.ArticleController;
 import com.sbs.example.jspCommunity.controller.HomeController;
 import com.sbs.example.jspCommunity.controller.MemberController;
 import com.sbs.example.jspCommunity.dao.ArticleDao;
+import com.sbs.example.jspCommunity.dao.AttrDao;
 import com.sbs.example.jspCommunity.dao.MemberDao;
 import com.sbs.example.jspCommunity.service.ArticleService;
+import com.sbs.example.jspCommunity.service.AttrService;
 import com.sbs.example.jspCommunity.service.EmailService;
 import com.sbs.example.jspCommunity.service.MemberService;
 
@@ -19,10 +21,15 @@ public class Container {
 	public static MemberDao memberDao;
 	public static HomeController homeController;
 	public static EmailService emailService;
+	public static AttrDao attrDao;
+	public static AttrService attrService;
+	
 	
 	
 	static {
-		
+		attrDao= new AttrDao();
+		attrService= new AttrService();
+			
 		emailService = new EmailService();
 		
 		articleDao = new ArticleDao();
@@ -34,7 +41,12 @@ public class Container {
 		memberController = new MemberController();
 	
 		homeController = new HomeController();
+
+	
+	
+	
 	}
+	
 
 
 

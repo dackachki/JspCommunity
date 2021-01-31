@@ -22,14 +22,12 @@ public class ArticleController {
 		articleService = Container.articleService;
 
 	}
-	
-	
+
 	public String showList(HttpServletRequest req, HttpServletResponse resp) {
 		articlesInPage.clear();
 		Article article;
-		int pageNo = Util.getAsInt(req.getParameter("pageNo"),1);
-		
-		
+		int pageNo = Util.getAsInt(req.getParameter("pageNo"), 1);
+
 		String searchKeyword = req.getParameter("searchKeyword");
 		String searchKeywordType = req.getParameter("searchKeywordType");
 		List<Board> boards = articleService.getAllBoards();
@@ -37,52 +35,78 @@ public class ArticleController {
 		Board board = articleService.getBoardById(boardId);
 		int totalCount = articleService.getArticlesCountByBoardId(boardId, searchKeywordType, searchKeyword);
 		List<Article> articles = articleService.getForPrintArticlesByBoardId(boardId, searchKeywordType, searchKeyword);
-		
 
 		double lastItem = articles.size();
-		double divideV= 10;
-		int page =(int)Math.ceil(lastItem /divideV);
-		if(page <= 1) {
+		double divideV = 10;
+		int page = (int) Math.ceil(lastItem / divideV);
+		if (page <= 1) {
 			page = 1;
 		}
-		
+
 		int itemsInAPage = 10;
 		int startPos = articles.size();
-		
-		
+
 		startPos = (pageNo * itemsInAPage) - 9;
-		if(pageNo == 1) {
+		if (pageNo == 1) {
 			startPos = 0;
 		}
-		int endPos = startPos+itemsInAPage;
-		
+		int endPos = startPos + itemsInAPage;
+
 		if (endPos > articles.size()) {
 			endPos = articles.size();
 		}
-	
-		for(int i = startPos;i < endPos;i++ ) {
+
+		for (int i = startPos; i < endPos; i++) {
 			article = articles.get(i);
 			articlesInPage.add(article);
-			
+
 		}
-		
-		System.out.printf("total page=%d\n",page);
-		System.out.printf("current page=%d\n",pageNo);
-		System.out.printf("start=%d\n",startPos);
-		System.out.printf("end=%d\n",endPos);
-		
+		int pageBoxSize = 10;
+		int previousPageBoxesCount = (page - 1) / pageBoxSize;
+		int pageBoxStartPage = pageBoxSize * previousPageBoxesCount + 1;
+		int pageBoxEndPage = pageBoxStartPage + pageBoxSize - 1;
+
+		if (pageBoxEndPage > page) {
+			pageBoxEndPage = page;
+		}
+
+		// 이전버튼 페이지 계산
+		int pageBoxStartBeforePage = pageBoxStartPage - 1;
+		if (pageBoxStartBeforePage < 1) {
+			pageBoxStartBeforePage = 1;
+		}
+
+		// 다음버튼 페이지 계산
+		int pageBoxEndAfterPage = pageBoxEndPage + 1;
+
+		if (pageBoxEndAfterPage > page) {
+			pageBoxEndAfterPage = page;
+		}
+
+		// 이전버튼 노출여부 계산
+		boolean pageBoxStartBeforeBtnNeedToShow = pageBoxStartBeforePage != pageBoxStartPage;
+		// 다음버튼 노출여부 계산
+		boolean pageBoxEndAfterBtnNeedToShow = pageBoxEndAfterPage != pageBoxEndPage;
+
 		req.setAttribute("page", page);
 		req.setAttribute("board", board);
 		req.setAttribute("boardName", board.getName());
 		req.setAttribute("boards", boards);
 		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("articles", articlesInPage);
-		if(searchKeyword == null ) {
-		
-		}
-		else {
-			req.setAttribute("searchKeyword",searchKeyword);
-			req.setAttribute("searchKeywordType",searchKeywordType);
+
+		req.setAttribute("pageBoxStartBeforeBtnNeedToShow", pageBoxStartBeforeBtnNeedToShow);
+		req.setAttribute("pageBoxEndAfterBtnNeedToShow", pageBoxEndAfterBtnNeedToShow);
+		req.setAttribute("pageBoxStartBeforePage", pageBoxStartBeforePage);
+		req.setAttribute("pageBoxEndAfterPage", pageBoxEndAfterPage);
+		req.setAttribute("pageBoxStartPage", pageBoxStartPage);
+		req.setAttribute("pageBoxEndPage", pageBoxEndPage);
+
+		if (searchKeyword == null) {
+
+		} else {
+			req.setAttribute("searchKeyword", searchKeyword);
+			req.setAttribute("searchKeywordType", searchKeywordType);
 		}
 		return "usr/article/list";
 	}
@@ -93,6 +117,12 @@ public class ArticleController {
 		String boardName = articleService.getBoardNameById(articleId);
 		int memberId = articleService.getMemberIdByArticleId(articleId);
 		Article article = articleService.getArticleById(articleId);
+
+		int hits = article.getHitsCount();
+		hits += 1;
+		article.setHitsCount(hits);
+
+		articleService.updateHits(article.getId(), hits);
 
 		req.setAttribute("boardName", boardName);
 		req.setAttribute("memberId", memberId);
@@ -107,8 +137,8 @@ public class ArticleController {
 		List<Board> boards = articleService.getAllBoards();
 		Member member = (Member) req.getAttribute("loginedMember");
 		int memberId = member.getId();
-		
-		req.setAttribute("memberId",memberId);
+
+		req.setAttribute("memberId", memberId);
 		req.setAttribute("boardId", boardId);
 		req.setAttribute("boards", boards);
 		req.setAttribute("board", board);
@@ -127,7 +157,6 @@ public class ArticleController {
 
 		int newArticleId = articleService.add(title, body, memberId, boardId);
 
-		
 		req.setAttribute("alertMsg", newArticleId + "번 게시물이 생성되었습니다.");
 		req.setAttribute("replaceUrl", String.format("detail?articleId=%d", newArticleId));
 		return "common/redirect";
@@ -148,7 +177,8 @@ public class ArticleController {
 		}
 
 		List<Board> boards = articleService.getAllBoards();
-
+		
+		req.setAttribute("article",article);
 		req.setAttribute("memberId", memberId);
 		req.setAttribute("boards", boards);
 		req.setAttribute("articleId", articleId);
@@ -167,7 +197,7 @@ public class ArticleController {
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
 
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-
+		System.out.printf("게시물번호:%d 제목:%s 내용 %s 게시판 번호:%d", articleId, title, body, boardId);
 		if (memberId != loginedMemberId) {
 			req.setAttribute("alertMsg", "작성자만 수정할 수 있습니다.");
 			req.setAttribute("historyBack", true);

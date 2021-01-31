@@ -25,6 +25,10 @@
 		갱신날짜 :
 		${article.getUpdateDate()}
 		</div>
+			<div>
+		조회수:
+		${article.getHitsCount()}
+		</div>
 		<br />
 		<div>
 		게시글 분류 :

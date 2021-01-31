@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:set var="pageTitle" value="아이디 찾기" />
+<c:set var="pageTitle" value="비밀번호 찾기" />
 <%@ include file="../../part/head.jspf"%>
 <script>
 	let DoFindForm__submited = false;

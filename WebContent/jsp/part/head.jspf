@@ -54,7 +54,7 @@ body {
 	background-color: beige;
 }
 
-.top-bar {
+.top-bar1 {
 	text-align: center;
 }
 
@@ -69,7 +69,7 @@ body {
 	font-weight: bold;
 	font-size: 3rem;
 }
-.footer-bar{
+.footer-bar1{
 	text-align: center;
 	
 }
@@ -89,7 +89,13 @@ body {
 				<hr>
 			</div>
 		</c:if>
-
+		<c:if test="${sessionScope.isUsingTempPw}">
+			<div class="UsingTempPw con" style="color:red;">현재 임시 비밀번호를 사용중입니다. ${expireDate}일 전까지 비밀번호를 재설정 해주세요.
+			<hr>
+			</div>
+		
+		</c:if>
+		
 		<div class="con top-menu">
 
 			<a href="../home/main">메인 </a>|
@@ -97,6 +103,7 @@ body {
 			<c:if test="${sessionScope.loginedMemberId > 0}">
 				<a href="../article/add?boardId=1">글쓰기</a> |
 			<a href="../member/doLogout">로그아웃 </a>|
+			<a href="../member/MModify">회원정보 수정 </a>|
 		</c:if>
 
 			<c:if test="${sessionScope.loginedMemberId == null}">
@@ -108,7 +115,7 @@ body {
 			<hr>
 		</div>
 
-		<div class="con top-bar">
+		<div class="con top-bar1">
 			<div class="con logobar">
 				<a href="#" class="logo"> <i class="icofont-cow-head"></i> B l a
 					c k C o w E d i t i o n

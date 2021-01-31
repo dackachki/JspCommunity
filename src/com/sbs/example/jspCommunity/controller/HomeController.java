@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 public class HomeController {
 
 	public String main(HttpServletRequest req, HttpServletResponse resp) {
-
 		return "usr/home/main";
 
 	}

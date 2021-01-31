@@ -28,10 +28,10 @@
 						form.searchKeyword.focus();
 						return;
 					}
-					if(searchKeyword.value.length >= 1 ){
+					if (searchKeyword.value.length >= 1) {
 						form.searchKeyword.value = searchKeyword;
 
-						}
+					}
 
 					form.submit();
 					DoSearchForm__submited = true;
@@ -42,22 +42,16 @@
 					$('select[name="searchKeywordType"]').val(
 							param__searchKeywordType);
 				}
-
-				
 			</script>
-		
-			
+
+
 			<form action="" onsubmit="DoSearchForm__submit(this); return false;">
-				<input type="hidden" name="boardId" value="${param.boardId}" />
-				
-				 <select
+				<input type="hidden" name="boardId" value="${param.boardId}" /> <select
 					name="searchKeywordType">
 					<option value="titleAndBody">제목+본문</option>
 					<option value="title">제목</option>
 					<option value="body">본문</option>
-				</select>
-			
-				<input value="${param.searchKeyword}" type="text"
+				</select> <input value="${param.searchKeyword}" type="text"
 					name="searchKeyword" placeholder="검색어를 입력해주세요." /> <input
 					type="submit" value="검색" />
 			</form>
@@ -72,7 +66,8 @@
 
 
 
-		<select name="boardId" onchange="if(this.value) location.href=(this.value)">
+		<select name="boardId"
+			onchange="if(this.value) location.href=(this.value)">
 			<option>선택</option>
 			<c:forEach var="Oboard" items="${boards}">
 				<option value="list?boardId=${Oboard.getId()}&pageNo=1">
@@ -85,32 +80,65 @@
 
 </section>
 
-<div class="con-min-width">
+<main>
+<div class="article-list-box con-min-width">
 	<div class="con">
-		<h1>${boardName}게시물리스트</h1>
-
-		<hr>
-		<c:forEach var="article" items="${articles}">
-			<div>
-				번호 : ${article.getId()} <br /> 작성날짜 : ${article.getRegDate()} <br />
-				갱신날짜 : ${article.getUpdateDate()} <br /> 
-				작성자 : ${article.getExtra__writer()} <br />
-				제목 : <a class="highlight"
-					href="detail?articleId=${article.getId()}">${article.getTitle()}</a>
-				<hr />
-			</div>
-		</c:forEach>
-	</div>
-	
-		<div class="con con-min-width" style="text-align:center;">
-		|&nbsp;<c:forEach var="i" begin="1" end="${page}">
-			<a href="list?boardId=${board.getId()}&pageNo=${i}">${i}</a>&nbsp; | &nbsp;
-			<c:if test="${not empty searchKeyword}">
-				<a href="list?boardId=${board.getId()}&pageNo=${i}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}">${i}</a>&nbsp; | &nbsp;
+		<table>
+			<colgroup>
+				<col width="100">
+				<col width="200">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>날짜</th>
+					<th>제목</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+			<c:forEach var="article" items="${articles}">
+				<tr style="text-align:center;">
+					<td><span class="article-list-box__id">${article.getId()}</span></td>
+					<td><span class="article-list-box__reg-date">
+							${article.getRegDate()} </span></td>
+					<td><a href="detail?articleId=${article.getId()}" class="article-list-box__title hover-link highlight" style="width:300px">
+							${article.getTitle()} </a></td>
 				
-				</c:if>
-		</c:forEach>
-	<hr>
+					<td><span class="article-=list-hits">${article.getHitsCount()}</span>
+				</td>
+				
+				</tr>
+				
+				</c:forEach>
+			
+			</tbody>
+		</table>
 	</div>
+</div>
+</main>
+
+<div class="con con-min-width" style="text-align: center;">
+	<c:if test="${pageBoxStartBeforeBtnNeedToShow}">
+		<c:set var="aUrl"
+			value="?page=${pageBoxStartBeforePage}&boardId=${param.boardId}&searchKeywordType=${param.searchKeywordType}&searchKeyword=${param.searchKeyword}" />
+		<a href="${aUrl}">◀</a>
+	</c:if>
+	|&nbsp;
+	<c:forEach var="i" begin="1" end="${page}">
+		<a href="list?boardId=${board.getId()}&pageNo=${i}"
+			style="color: red;">${i}</a>&nbsp; | &nbsp;
+			<c:if test="${not empty searchKeyword}">
+			<a
+				href="list?boardId=${board.getId()}&pageNo=${i}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}">${i}</a>&nbsp; | &nbsp;
+				</c:if>
+	</c:forEach>
+	<c:if test="${pageBoxEndAfterBtnNeedToShow}">
+		<c:set var="aUrl"
+			value="?page=${pageBoxEndAfterPage}&boardId=${param.boardId}&searchKeywordType=${param.searchKeywordType}&searchKeyword=${param.searchKeyword}" />
+		<a href="${aUrl}">▶</a>
+	</c:if>
+	<hr>
+</div>
 </div>
 <%@ include file="../../part/foot.jspf"%>

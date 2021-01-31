@@ -138,6 +138,31 @@ public class MemberDao {
 	
 		MysqlUtil.update(sql);
 	}
+
+	public void memberModify(int id, String securedPw, String nickname, String email, String cellPhoneNo, boolean isUsingTempPw) {
+		SecSql sql = new SecSql();
+		sql.append("UPDATE `member`");
+		sql.append("SET loginPw = ?", securedPw);
+		sql.append(",nickname = ? ",nickname);
+		sql.append(",email = ? ",email);
+		sql.append(",cellPhoneNo = ? ",cellPhoneNo);
+		sql.append("WHERE id = ? ", id);
+		
+		if(isUsingTempPw) {
+			SecSql sql2 = new SecSql();
+			sql2.append("DELETE FROM attr");
+			sql2.append("WHERE relTypeCode = 'member'");
+			sql2.append("And relId = ? ",id);
+			sql2.append("And typeCode = 'extra' ");
+			sql2.append("And type2Code = 'isUsingTempPassword';");
+			MysqlUtil.delete(sql2);
+			
+		}
+		
+		
+		MysqlUtil.update(sql);
+		
+	}
 	}
 	
 

@@ -89,12 +89,18 @@ public abstract class DispatcherServlet extends HttpServlet {
 		loginRequiredList.add("/usr/article/modify");
 		loginRequiredList.add("/usr/article/doModify");
 		loginRequiredList.add("/usr/article/doDelete");
+		loginRequiredList.add("/usr/article/MModify");
+		loginRequiredList.add("/usr/article/doMModify");
+		
 		
 		List<String> loginNotRequiredList = new ArrayList<>();
 		loginNotRequiredList.add("/usr/member/doLogin");
 		loginNotRequiredList.add("/usr/member/login");
 		loginNotRequiredList.add("/usr/member/doJoin");
 		loginNotRequiredList.add("/usr/member/join");
+		loginNotRequiredList.add("/usr/member/doFindLoginPw");
+		loginNotRequiredList.add("/usr/member/doFindLoginId");
+		
 		
 		if (loginRequiredList.contains(actionUrl)) {
 
@@ -120,7 +126,7 @@ public abstract class DispatcherServlet extends HttpServlet {
 		rs.put("actionMethodName", actionMethodName);
 
 		return rs;
-	}
+	}	
 
 	protected abstract String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName,
 			String actionMethodName);

@@ -9,15 +9,55 @@
 
 <%@ include file="../../part/head.jspf"%>
 
+<script>
+	let DoModifyForm__submited = false;
+	let DoModifyForm__checkedLoginId = "";
 
-<h1>${articleId}번게시글 수정</h1>
-<form action="doModify" method="POST">
+	// 폼 발송전 체크
+	function DoModifyForm__submit(form) {
+		if (DoModifyForm__submited) {
+			alert('처리중입니다.');
+			return;
+		}
 
+		form.title.value = form.title.value.trim();
+
+		if (form.title.value.length == 0) {
+			alert('제목을 입력해주세요.');
+			form.title.focus();
+
+			return;
+		}
+
+		const editor = $(form).find('.toast-ui-editor').data(
+				'data-toast-editor');
+		const body = editor.getMarkdown().trim();
+
+		if (body.length == 0) {
+			alert('내용을 입력해주세요.');
+			editor.focus();
+
+			return;
+		}
+
+		form.body.value = body;
+
+		form.submit();
+		DoModifyForm__submited = true;
+	}
+</script>
+
+
+
+<form class="con-min-width con" action="doModify" method="POST"
+	onsubmit="DoModifyForm__submit(this); return false;">
+<h1>${articleId}번게시글수정</h1>
 
 	<div class="title">
-		<input type="hidden" name="articleId" value="${articleId}"> <span>
-			제목: </span> <input type="text" name="title" maxlength="30"
-			placeholder="${article.getTitle()}">
+		<input type="hidden" name="articleId" value="${articleId}"> <input
+			type="hidden" name="body"> <span> 제목: </span> <input
+			type="text" name="title" maxlength="30"
+			value="${article.title}">
 	</div>
 	<hr />
 
@@ -26,9 +66,9 @@
 		<div>내용</div>
 		<div>
 			<script type="text/x-template">
+				${article.body}
+			</script>
 
-					${article.getBody()}
-</script>
 			<div class="toast-ui-editor"></div>
 		</div>
 	</div>

@@ -68,4 +68,10 @@ public class ArticleService {
 	public List<Article> getForPrintArticlesByBoardId(int boardId, String searchKeywordType, String searchKeyword) {
 		return articleDao.getForPrintArticlesByBoardId(boardId,searchKeywordType,searchKeyword);
 	}
+
+
+	public void updateHits(int articleId, int updatedHits) {
+	 articleDao.updateHits(articleId,updatedHits);	
+		
+	}
 }

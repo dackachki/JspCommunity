@@ -44,11 +44,6 @@ function DoWriteForm__submit(form) {
 }
 </script>
 
-
-
-<script
-	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-
 <form class="con-min-width" action="doAdd" method="POST" onsubmit="DoWriteForm__submit(this); return false;">
 	<div class="con">
 		<h1>게시글 작성</h1>

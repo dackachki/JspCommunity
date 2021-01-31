@@ -172,6 +172,15 @@ public class ArticleDao {
 
 		return MysqlUtil.selectRowIntValue(sql);
 	}
+	public void updateHits(int articleId, int updatedHits) {
+		SecSql sql = new SecSql();
+		sql.append("UPDATE article");
+		sql.append("SET hitsCount= ?",updatedHits);
+		sql.append("WHERE id = ? ;",articleId);
+		
+		MysqlUtil.update(sql);
+	
+	}
 
 	
 }

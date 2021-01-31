@@ -58,6 +58,63 @@ a {
 .center{
 	text-align:center;
 }
+
+.padding-0-10 {
+  padding-left:10px;
+  padding-right:10px;
+}
+
+.block {
+  display:block;
+}
+
+.flex {
+  display:flex;
+}
+
+.flex-grow-1 {
+  flex-grow:1;
+}
+
+.flex-ai-c {
+  align-items:center;
+}
+
+.height-100p {
+  height:100%;
+}
+
+.hover-link:hover {
+  text-decoration:underline;
+  color:red;
+}
+/* 라이브러리 - 일반 끝 */
+
+/* 라이브러리 - 디버그 시작 */
+.bd-red {
+  border:2px solid red;
+}
+
+.bd-green {
+  border:2px solid green;
+}
+
+.bd-blue {
+  border:2px solid blue;
+}
+
+.bg-red {
+  background-color:red;
+}
+
+.bg-green {
+  background-color:green;
+}
+
+.bg-blue {
+  background-color:blue;
+}
+/* 라이브러리 - 디버그 끝 */
 /* 라이브러리 끝 */
 
 /* 커스텀 시작 */
@@ -72,6 +129,105 @@ a {
 .con {
 	max-width: var(--site-width);
 }
+
+
+.con-min-width {
+  min-width:320px;
+}
+
+/* 바디콘텐트 시작 */
+.body-content {
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.body-content > main {
+  flex-grow:1;
+}
+/* 바디콘텐트 끝 */
+
+/* 로고 시작 */
+.logo {
+  font-size:2rem;
+}
+
+.logo > span:nth-child(2) {
+  margin-left:5px;
+}
+/* 로고 끝 */
+
+/* 탑바 시작 */
+.top-bar {
+  height:100px;
+  background-color:black;
+  color:white;
+}
+
+.top-bar .logo {
+  padding-left:10px;
+}
+
+.top-bar__menu-box-1 > ul > li > a {
+  padding:0 20px;
+}
+
+.top-bar__menu-box-1 > ul > li:hover > a {
+  background-color:white;
+  
+}
+
+.top-bar__menu-box-1 > ul > li > a > span:last-child {
+  margin-left:5px;
+}
+
+/* 탑바 끝 */
+
+/* 타이틀 시작 */
+.title-bar {
+  margin-top:30px;
+  margin-bottom:20px;
+}
+/* 타이틀 끝 */
+
+/* 하단바 시작 */
+.bottom-bar {
+  height:100px;
+  
+}
+/* 하단바 끝 */
+
+/* 게시물 리스트 박스 시작 */
+.article-list-box > .con > table {
+  border-top:3px solid black;
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+
+.article-list-box > .con > table > thead > tr > th {
+  text-align:left;
+}
+
+.article-list-box > .con > table th,
+.article-list-box > .con > table td {
+  padding-top:20px;
+  padding-bottom:20px;
+}
+
+.article-list-box > .con > table tr {
+  border-bottom: 1px solid black;
+}
+
+.article-list-box__title {
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* 게시물 리스트 박스 끝 */
+
 .toast-ui-viewer{
 	background-color:white;
 	
