@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sbs.example.Util.Util;
 import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.mysqlutil.MysqlUtil;
@@ -81,10 +82,22 @@ public abstract class DispatcherServlet extends HttpServlet {
 		req.setAttribute("isLogined", isLogined);
 		req.setAttribute("loginedMemberId", loginedMemberId);
 		req.setAttribute("loginedMember", loginedMember);
+		
+		String currentURL =req.getRequestURI();
+		
+		if(req.getQueryString() != null) {
+			currentURL += "?" + req.getQueryString();
+			
+		}
+		
+		String encodedcurrentURL = Util.getUrlEncoded(currentURL);
+		
+		req.setAttribute("currentURL", currentURL);
+		req.setAttribute("encodedcurrentURL", encodedcurrentURL);
 
 		List<String> loginRequiredList = new ArrayList<>();
 		loginRequiredList.add("/usr/member/doLogout");
-		loginRequiredList.add("/usr/article/write");
+		loginRequiredList.add("/usr/article/add");
 		loginRequiredList.add("/usr/article/doWrite");
 		loginRequiredList.add("/usr/article/modify");
 		loginRequiredList.add("/usr/article/doModify");
@@ -106,7 +119,7 @@ public abstract class DispatcherServlet extends HttpServlet {
 
 			if (session.getAttribute("loginedMemberId") == null) {
 				req.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-				req.setAttribute("replaceUrl", "../member/login");
+				req.setAttribute("replaceUrl", "../member/login?afterLoginURL=" + encodedcurrentURL);
 				RequestDispatcher rd = req.getRequestDispatcher("/jsp/common/redirect.jsp");
 				rd.forward(req, resp);
 			}

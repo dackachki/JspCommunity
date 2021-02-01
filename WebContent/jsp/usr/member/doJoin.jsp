@@ -109,6 +109,15 @@
 			
 			return;
 		}
+
+		form.cellphoneNo.value = form.cellphoneNo.value.trim();
+		
+		if ( form.cellphoneNo.value.length == 0 ) {
+			alert('핸드폰 번호를 입력해주세요.');
+			form.cellphoneNo.focus();
+			
+			return;
+		}
 		form.loginPwReal.value = sha256(form.loginPw.value);
 		form.loginPw.value ="";
 		form.loginPwConfirm.value ="";	

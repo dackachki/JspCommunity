@@ -3,6 +3,7 @@ package com.sbs.example.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.Date;
 import java.util.Map;
@@ -136,6 +137,28 @@ public class Util {
 		}
 		
 		return defaultValue;
+	}
+	
+	public static boolean isEmpty(Object obj) {
+		if ( obj == null ) {
+			return true;
+		}
+
+		if ( obj instanceof String ) {
+			if ( ((String)obj).trim().length() == 0 ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static String getUrlEncoded(String url) {
+		try {
+			return URLEncoder.encode(url, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return url;
+		}
 	}
 	
 }

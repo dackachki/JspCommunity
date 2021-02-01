@@ -17,7 +17,7 @@ import com.sbs.example.jspCommunity.service.AttrService;
 import com.sbs.example.jspCommunity.service.EmailService;
 import com.sbs.example.jspCommunity.service.MemberService;
 
-public class MemberController {
+public class MemberController extends Controller {
 	private MemberService memberService;
 	private EmailService emailService;
 	private AttrService attrService;
@@ -54,17 +54,14 @@ public class MemberController {
 		Member oldMember = memberService.getMemberByLoginId(loginId);
 
 		if (oldMember != null) {
-			req.setAttribute("alertMsg", "해당 로그인 아이디는 이미 사용중입니다.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req,"해당 로그인 아이디는 이미 사용중입니다.");
+			
 		}
 
 		memberService.memberJoin(name, loginId, loginPw, nickname, email, cellphoneNo);
 		emailService.send(email, nickname+"님 [BlackCowEdition]가입이 완료되었습니다.", nickname+"님의 가입을 축하합니다.");
 
-		req.setAttribute("alertMsg", "회원 가입이 완료되었습니다.");
-		req.setAttribute("replaceUrl", String.format("login"));
-		return "common/redirect";
+		return msgAndReplace(req, "회원 가입이 완료되었습니다.", "login");
 	}
 
 	public String login(HttpServletRequest req, HttpServletResponse resp) {
@@ -80,16 +77,13 @@ public class MemberController {
 
 		Member member = memberService.getMemberByLoginId(loginId);
 		if (member == null) {
-			req.setAttribute("alertMsg", "존재하지 않는 아이디 입니다.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req, "존재하지 않는 아이디 입니다.");
+				
 		}
 
 		if (member.getLoginPw().equals(loginPw) == false) {
 
-			req.setAttribute("alertMsg", "비밀번호가 일치하지 않습니다..");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req, "비밀번호가 일치하지 않습니다.");
 
 		}
 
@@ -110,10 +104,14 @@ public class MemberController {
 			}
 		}
 		
-		req.setAttribute("alertMsg", member.getNickname() + "님 환영합니다.");
-		req.setAttribute("replaceUrl", "../../usr/home/main");
-		return "common/redirect";
-
+		if(Util.isEmpty(req.getParameter("afterLoginURL")) == false) {
+			String replaceUrl = req.getParameter("afterLoginURL");
+			return msgAndReplace(req, member.getNickname() + "님 환영합니다.",replaceUrl);
+			
+		}
+		else {
+		return msgAndReplace(req, member.getNickname() + "님 환영합니다.", "../../usr/home/main");
+		}
 	}
 
 	public String logout(HttpServletRequest req, HttpServletResponse resp) {
@@ -124,9 +122,7 @@ public class MemberController {
 		HttpSession session = req.getSession();
 
 		if (session.getAttribute("loginedMemberId") == null) {
-			req.setAttribute("alertMsg", "이미 로그아웃 상태입니다.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req, "이미 로그아웃 상태입니다.");
 		}
 
 		session.removeAttribute("loginedMemberId");
@@ -135,7 +131,7 @@ public class MemberController {
 
 		req.setAttribute("alertMsg", "로그아웃 되었습니다.");
 		req.setAttribute("replaceUrl", "../home/main");
-		return "common/redirect";
+		return msgAndReplace(req, "로그아웃 되었습니다.", "../home/main");
 	}
 
 	public String getLoginIdDup(HttpServletRequest req, HttpServletResponse resp) {
@@ -168,14 +164,10 @@ public class MemberController {
 
 		Member member = memberService.getMemberByNameAndEmail(name, email);
 		if (member == null) {
-			req.setAttribute("alertMsg", "일치하는 회원 정보가 존재하지 않습니다.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req, "일치하는 회원 정보가 존재하지 않습니다.");
 		}
 
-		req.setAttribute("alertMsg", "회원님의 아이디는" + member.getLoginId() + "입니다.");
-		req.setAttribute("replaceUrl", "login");
-		return "common/redirect";
+		return msgAndReplace(req, "회원님의 아이디는" + member.getLoginId() + "입니다.", "login");
 
 	}
 
@@ -197,9 +189,7 @@ public class MemberController {
 		Member member = memberService.getMemberByNameAndLoginId(loginId, name);
 
 		if (member == null) {
-			req.setAttribute("alertMsg", "일치하는 회원 정보가 존재하지 않습니다.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req, "일치하는 회원 정보가 존재하지 않습니다.");
 		}
 
 		int pwChangedMemberId = member.getId();
@@ -213,9 +203,7 @@ public class MemberController {
 		String loginPw = Util.sha256(tempPw);
 		memberService.modifyPw(loginPw, member.getId());
 
-		req.setAttribute("alertMsg", "가입시 입력한 이메일 주소로 임시 비밀번호를 발송하였습니다.");
-		req.setAttribute("replaceUrl", "login");
-		return "common/redirect";
+		return msgAndReplace(req, "가입시 입력한 이메일 주소로 임시 비밀번호를 발송하였습니다.", "login");
 
 	}
 
@@ -242,9 +230,8 @@ public class MemberController {
 		memberService.memberModify(id, ChangedPw, nickname, email, cellphoneNo, isUsingTempPw);
 
 		session.removeAttribute("isUsingTempPw");
-		req.setAttribute("alertMsg", "회원 정보가 수정되었습니다.");
-		req.setAttribute("replaceUrl", "../home/main");
-		return "common/redirect";
+		
+		return msgAndReplace(req,"회원 정보가 수정되었습니다.","../home/main");
 
 	}
 

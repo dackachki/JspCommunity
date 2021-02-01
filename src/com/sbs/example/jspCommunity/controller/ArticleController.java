@@ -157,9 +157,7 @@ public class ArticleController extends Controller {
 
 		int newArticleId = articleService.add(title, body, memberId, boardId);
 
-		req.setAttribute("alertMsg", newArticleId + "번 게시물이 생성되었습니다.");
-		req.setAttribute("replaceUrl", String.format("detail?articleId=%d", newArticleId));
-		return "common/redirect";
+		return msgAndReplace(req, newArticleId + "번 게시물이 생성되었습니다.", String.format("detail?articleId=%d", newArticleId));
 	}
 
 	public String modify(HttpServletRequest req, HttpServletResponse resp) {
@@ -171,8 +169,6 @@ public class ArticleController extends Controller {
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 
 		if (memberId != loginedMemberId) {
-			req.setAttribute("alertMsg", "작성자만 수정할 수 있습니다.");
-			req.setAttribute("historyBack", true);
 			return msgAndBack(req,"작성자만 수정할 수 있습니다.");
 		}
 
@@ -199,22 +195,16 @@ public class ArticleController extends Controller {
 		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		System.out.printf("게시물번호:%d 제목:%s 내용 %s 게시판 번호:%d", articleId, title, body, boardId);
 		if (memberId != loginedMemberId) {
-			req.setAttribute("alertMsg", "작성자만 수정할 수 있습니다.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req, "작성자만 수정할 수 있습니다.");
 		}
 
 		if (boardId == 0) {
-			req.setAttribute("alertMsg", "게시판을 선택해주세요.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req, "게시판을 선택해주세요.");
 
 		}
 
 		articleService.articleModify(articleId, title, body, boardId);
-		req.setAttribute("alertMsg", articleId + "번 게시물이 수정되었습니다.");
-		req.setAttribute("replaceUrl", String.format("list?boardId=1"));
-		return "common/redirect";
+		return msgAndReplace(req, articleId + "번 게시물이 수정되었습니다.", String.format("list?boardId=1"));
 
 	}
 
@@ -226,14 +216,10 @@ public class ArticleController extends Controller {
 
 		int memberId = articleService.getMemberIdByArticleId(articleId);
 		if (memberId != loginedMemberId) {
-			req.setAttribute("alertMsg", "작성자만 삭제할 수 있습니다.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req, "작성자만 삭제할 수 있습니다.");
 		}
 		articleService.deleteArticle(articleId);
-		req.setAttribute("alertMsg", articleId + "번 게시물이 삭제되었습니다.");
-		req.setAttribute("replaceUrl", String.format("list?boardId=1"));
-		return "common/redirect";
+		return msgAndReplace(req, articleId + "번 게시물이 삭제되었습니다.", String.format("list?boardId=1"));
 
 	}
 }

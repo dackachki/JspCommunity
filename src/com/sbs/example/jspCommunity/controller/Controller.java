@@ -6,11 +6,16 @@ public class Controller {
 
 	protected String msgAndBack(HttpServletRequest req, String msg) {
 		req.setAttribute("alertMsg", msg);
-		
-		return "common/";
-		
-		
-		
+		req.setAttribute("historyBack", true);
+		return "common/redirect";
 	}
+
+	protected String msgAndReplace(HttpServletRequest req, String msg, String replaceUrl) {
+		req.setAttribute("alertMsg", msg);
+		req.setAttribute("replaceUrl", replaceUrl);
+		return "common/redirect";
+	}
+	
+	
 	
 }

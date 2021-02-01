@@ -42,6 +42,7 @@
 <form class="con-min-width" action="doLogin" method="POST"
 	onsubmit="DoLoginForm__submit(this); return false;">
 	<input type="hidden" name="loginPwReal" />
+	<input type="hidden" name="afterLoginURL" value = "${param.afterLoginURL}" />
 	<div class="con" style="height:74vh">
 		<h1>${pageTitle}</h1>
 		<hr />
