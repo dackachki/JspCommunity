@@ -39,7 +39,7 @@
 <form class="con-min-width" action="doFindLoginPw" method="POST"
 	onsubmit="DoFindForm__submited(this); return false;">
 	<input type="hidden" name="loginPwReal" />
-	<div class="con">
+	<div class="con" style="height:74vh">
 		<h1>${pageTitle}</h1>
 		<hr />
 		<div>

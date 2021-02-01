@@ -120,7 +120,7 @@
 	
 	</script>
 	
-	<div class="con con-min-width">
+	<div class="con con-min-width" style="height:74vh">
 	<h1>${pageTitle}</h1>
 	<form action="doJoin" method="POST" onsubmit="DoJoinForm__submit(this); return false;">
 		<hr />
@@ -141,7 +141,7 @@
 			<div>로그인 비번</div>
 			<div>
 				<input name="loginPw" type="password" maxlength="50"
-					placeholder="로그인 비밀버호를 입력해주세요." />
+					placeholder="로그인 비밀번호를 입력해주세요." />
 			</div>
 		</div>
 		
@@ -151,7 +151,7 @@
 			<div>로그인 비밀번호 확인</div>
 			<div>
 				<input name="loginPwConfirm" type="password" maxlength="50"
-					placeholder="로그인 비밀버호 확인을 입력해주세요." />
+					placeholder="로그인 비밀번호 확인을 입력해주세요." />
 			</div>
 		</div>
 

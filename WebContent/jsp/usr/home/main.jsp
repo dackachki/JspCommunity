@@ -9,9 +9,9 @@
 
 
 
-<section class="con-min-width">
+<section class="con-min-width flex">
 
-	<div class="con">
+	<div class="con flex-di-c flex-grow-1" style="height:68vh">
 
 <h1>${pageTitle}</h1>
 
@@ -22,6 +22,8 @@
 		<h1>${sessionScope.loginedMemberNick}님 환영합니다.</h1>			
 		</div>
 		</c:if>
+		
+		
 
 
 <hr>

@@ -79,15 +79,23 @@ a {
 .flex-ai-c {
   align-items:center;
 }
+.flex-ai-s {
+  align-items:start;
+}
 
 .height-100p {
   height:100%;
+}
+.flex-di-c{
+	flex-direction:column;
 }
 
 .hover-link:hover {
   text-decoration:underline;
   color:red;
 }
+
+
 /* 라이브러리 - 일반 끝 */
 
 /* 라이브러리 - 디버그 시작 */
@@ -114,6 +122,10 @@ a {
 .bg-blue {
   background-color:blue;
 }
+.red{
+	color:red;
+}
+
 /* 라이브러리 - 디버그 끝 */
 /* 라이브러리 끝 */
 
@@ -206,7 +218,7 @@ a {
 }
 
 .article-list-box > .con > table > thead > tr > th {
-  text-align:left;
+  text-align:center;
 }
 
 .article-list-box > .con > table th,
@@ -234,6 +246,12 @@ a {
 }
 .article-info > div{
 	display:inline-block;
+	
+	
+}
+.footer-bar1{
+	
+	
 	
 	
 }

@@ -14,7 +14,7 @@ import com.sbs.example.jspCommunity.dto.Board;
 import com.sbs.example.jspCommunity.dto.Member;
 import com.sbs.example.jspCommunity.service.ArticleService;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 	private ArticleService articleService;
 	private List<Article> articlesInPage = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class ArticleController {
 		req.setAttribute("boards", boards);
 		req.setAttribute("totalCount", totalCount);
 		req.setAttribute("articles", articlesInPage);
-
+		req.setAttribute("pageNo", pageNo);
 		req.setAttribute("pageBoxStartBeforeBtnNeedToShow", pageBoxStartBeforeBtnNeedToShow);
 		req.setAttribute("pageBoxEndAfterBtnNeedToShow", pageBoxEndAfterBtnNeedToShow);
 		req.setAttribute("pageBoxStartBeforePage", pageBoxStartBeforePage);
@@ -173,7 +173,7 @@ public class ArticleController {
 		if (memberId != loginedMemberId) {
 			req.setAttribute("alertMsg", "작성자만 수정할 수 있습니다.");
 			req.setAttribute("historyBack", true);
-			return "common/redirect";
+			return msgAndBack(req,"작성자만 수정할 수 있습니다.");
 		}
 
 		List<Board> boards = articleService.getAllBoards();
@@ -211,7 +211,7 @@ public class ArticleController {
 
 		}
 
-		int modified = articleService.articleModify(articleId, title, body, boardId);
+		articleService.articleModify(articleId, title, body, boardId);
 		req.setAttribute("alertMsg", articleId + "번 게시물이 수정되었습니다.");
 		req.setAttribute("replaceUrl", String.format("list?boardId=1"));
 		return "common/redirect";

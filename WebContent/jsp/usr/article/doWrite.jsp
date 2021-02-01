@@ -45,8 +45,8 @@ function DoWriteForm__submit(form) {
 </script>
 
 <form class="con-min-width" action="doAdd" method="POST" onsubmit="DoWriteForm__submit(this); return false;">
-	<div class="con">
-		<h1>게시글 작성</h1>
+	<div class="con flex flex-di-c flex-grow-1">
+		<h2>게시글 작성</h2>
 		<input type="hidden" name="body" />
 		 <input type="hidden" name="memberId" value="${memberId}">
 		<div>
@@ -61,20 +61,23 @@ function DoWriteForm__submit(form) {
 			</div>
 		</div>				
 				
-			</div>
+			
 
+<hr>
 
 			게시판 선택 
+
 			<select name="boardId">
 				<c:forEach var="board" items="${boards}">
 					<option value="${board.getId()}">${board.getName()}</option>
 				</c:forEach>
 			</select> 
-			<input value="추가" type="submit" onclick="return confirm('게시물을 등록하시겠습니까?');">
-			<button type="button" onclick="history.back();">뒤로가기</button>
+<hr>
+			<input value="추가" type="submit" onclick="return confirm('게시물을 등록하시겠습니까?');" style="width:100px;">
+			<button type="button" onclick="history.back();"style="width:100px;">뒤로가기</button>
 
 
-
+	</div>
 		</div>
 	
 </form>

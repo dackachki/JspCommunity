@@ -22,7 +22,7 @@ public class EmailService {
 
 	public String sendTempPw(Member member) {
 		
-		String CommuTitle = "[BlackCow]";
+		String CommuTitle = "[BlackCowEdition]";
 		
 		String title = CommuTitle+"임시 패스워드입니다.";
 		int tempPwLengh=8;

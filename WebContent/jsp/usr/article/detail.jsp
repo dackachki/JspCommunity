@@ -5,7 +5,7 @@
 
 <%@ include file="../../part/head.jspf"%>
 
-	<div class="con-min-width">
+	<div class="con-min-width" style="height:68vh">
 	<div class="con">
 
 	<h1>게시물 정보</h1>

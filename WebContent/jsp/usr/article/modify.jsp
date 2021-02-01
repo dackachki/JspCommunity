@@ -53,6 +53,7 @@
 	onsubmit="DoModifyForm__submit(this); return false;">
 <h1>${articleId}번게시글수정</h1>
 
+	<div class="flex flex-di-c flex-grow-1 con con-min-width">
 	<div class="title">
 		<input type="hidden" name="articleId" value="${articleId}"> <input
 			type="hidden" name="body"> <span> 제목: </span> <input
@@ -73,7 +74,7 @@
 		</div>
 	</div>
 
-	<hr />
+	
 	<div>게시판 변경</div>
 	<div>
 		<select name="boardId">
@@ -83,10 +84,13 @@
 
 				<option value="${board.getId()}">${board.getName()}</option>
 			</c:forEach>
-		</select> <input value="수정하기" type="submit">
+			</select>
+			
+			<hr />
+			 <input value="수정하기" type="submit">
 		<button type="button" onclick="history.back();">뒤로가기</button>
 
-
+</div>
 	</div>
 </form>
 <%@ include file="../../part/foot.jspf"%>

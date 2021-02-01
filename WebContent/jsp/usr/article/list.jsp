@@ -7,8 +7,8 @@
 
 <%@ include file="../../part/head.jspf"%>
 
-
-<section class="menu con-min-width">
+<div class="main flex flex-di-c flex-grow-1">
+<section class="menu con-min-width" >
 	<div class="con">
 
 
@@ -44,7 +44,7 @@
 				}
 			</script>
 
-
+	<div class="list-info"	>
 			<form action="" onsubmit="DoSearchForm__submit(this); return false;">
 				<input type="hidden" name="boardId" value="${param.boardId}" /> <select
 					name="searchKeywordType">
@@ -62,6 +62,7 @@
 
 		<div class="con">
 			<a>게시판 변경</a> <a>현재 게시판: ${board.getName()}</a>
+		</div>
 		</div>
 
 
@@ -102,7 +103,7 @@
 					<td><span class="article-list-box__id">${article.getId()}</span></td>
 					<td><span class="article-list-box__reg-date">
 							${article.getRegDate()} </span></td>
-					<td><a href="detail?articleId=${article.getId()}" class="article-list-box__title hover-link highlight" style="width:300px">
+					<td><a href="detail?articleId=${article.getId()}" class="article-list-box__title hover-link highlight">
 							${article.getTitle()} </a></td>
 				
 					<td><span class="article-=list-hits">${article.getHitsCount()}</span>
@@ -126,11 +127,10 @@
 	</c:if>
 	|&nbsp;
 	<c:forEach var="i" begin="1" end="${page}">
-		<a href="list?boardId=${board.getId()}&pageNo=${i}"
-			style="color: red;">${i}</a>&nbsp; | &nbsp;
+		<a href="list?boardId=${board.getId()}&pageNo=${i}">${i}</a>&nbsp; | &nbsp;
+		<c:set var="aClass" value="${pageNo == i ? 'red' : ''}" />		
 			<c:if test="${not empty searchKeyword}">
-			<a
-				href="list?boardId=${board.getId()}&pageNo=${i}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}">${i}</a>&nbsp; | &nbsp;
+			<a class="aClass" href="list?boardId=${board.getId()}&pageNo=${i}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}">${i}</a>&nbsp; | &nbsp;
 				</c:if>
 	</c:forEach>
 	<c:if test="${pageBoxEndAfterBtnNeedToShow}">
@@ -141,4 +141,5 @@
 	<hr>
 </div>
 </div>
+
 <%@ include file="../../part/foot.jspf"%>

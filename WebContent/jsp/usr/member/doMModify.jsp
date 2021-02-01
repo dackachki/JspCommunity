@@ -81,7 +81,7 @@
 	
 	</script>
 
-<div class="con con-min-width">
+<div class="con con-min-width flex flex-di-c flex-grow-1" style="height:68vh">
 	<h1>${pageTitle}</h1>
 	<form action="doMModify" method="POST"
 		onsubmit="DoModifyForm__submit(this); return false;">
