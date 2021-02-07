@@ -55,9 +55,9 @@ public class UsrServlet extends DispatcherServlet {
 			}
 
 			else if (actionMethodName.equals("MModify")) {
-				
+
 				jspPath = memberController.MModify(req, resp);
-			
+
 			} else if (actionMethodName.equals("doMModify")) {
 
 				jspPath = memberController.doMModify(req, resp);
@@ -83,7 +83,26 @@ public class UsrServlet extends DispatcherServlet {
 			} else if (actionMethodName.equals("delete")) {
 				jspPath = articleController.delete(req, resp);
 			}
-
+			else if (actionMethodName.equals("addLike")) {
+				jspPath = articleController.addLike(req, resp);
+			}
+			else if (actionMethodName.equals("addDislike")) {
+				jspPath = articleController.addDislike(req, resp);
+			}
+			else if (actionMethodName.equals("removeLike")) {
+				jspPath = articleController.removeLike(req, resp);
+			}
+			else if (actionMethodName.equals("removeDislike")) {
+				jspPath = articleController.removeDislike(req, resp);
+			}
+			else if (actionMethodName.equals("addReply")) {
+				jspPath = articleController.addreply(req, resp);
+			}
+			else if (actionMethodName.equals("deleteReply")) {
+				jspPath = articleController.deleteReply(req, resp);
+			}
+		
+		
 		} else if (controllerName.equals("home")) {
 			HomeController homeController = Container.homeController;
 			if (actionMethodName.equals("main")) {

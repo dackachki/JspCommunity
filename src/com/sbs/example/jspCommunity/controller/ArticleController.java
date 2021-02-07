@@ -12,11 +12,14 @@ import com.sbs.example.jspCommunity.container.Container;
 import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Board;
 import com.sbs.example.jspCommunity.dto.Member;
+import com.sbs.example.jspCommunity.dto.Reply;
 import com.sbs.example.jspCommunity.service.ArticleService;
 
 public class ArticleController extends Controller {
 	private ArticleService articleService;
 	private List<Article> articlesInPage = new ArrayList<>();
+	
+	
 
 	public ArticleController() {
 		articleService = Container.articleService;
@@ -112,18 +115,35 @@ public class ArticleController extends Controller {
 	}
 
 	public String detail(HttpServletRequest req, HttpServletResponse resp) {
-
+		HttpSession session = req.getSession();
+		
 		int articleId = Integer.parseInt(req.getParameter("articleId"));
+		
+		session.setAttribute("articleId", articleId);
 		String boardName = articleService.getBoardNameById(articleId);
 		int memberId = articleService.getMemberIdByArticleId(articleId);
 		Article article = articleService.getArticleById(articleId);
-
+		if(session.getAttribute("loginedMemberId") != null) {
+		int loginedMemberId = (int)session.getAttribute("loginedMemberId");
+		
+		boolean isLiked = articleService.decideLike(article.getId(),loginedMemberId);
+		boolean isDisliked = articleService.decidedislike(article.getId(),loginedMemberId);
+		//true = 데이터 없음 false = 데이터 있음
+	
+		
+		req.setAttribute("isLiked", isLiked);
+		req.setAttribute("isDisliked", isDisliked);
+		
+		}
 		int hits = article.getHitsCount();
 		hits += 1;
-		article.setHitsCount(hits);
-
+		article.setHitsCount(hits);	
+		List<Reply> replies = articleService.getReplyByArticleId(article.getId());
+		
+		
 		articleService.updateHits(article.getId(), hits);
-
+		
+		req.setAttribute("replies", replies);
 		req.setAttribute("boardName", boardName);
 		req.setAttribute("memberId", memberId);
 		req.setAttribute("article", article);
@@ -169,12 +189,12 @@ public class ArticleController extends Controller {
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 
 		if (memberId != loginedMemberId) {
-			return msgAndBack(req,"작성자만 수정할 수 있습니다.");
+			return msgAndBack(req, "작성자만 수정할 수 있습니다.");
 		}
 
 		List<Board> boards = articleService.getAllBoards();
-		
-		req.setAttribute("article",article);
+
+		req.setAttribute("article", article);
 		req.setAttribute("memberId", memberId);
 		req.setAttribute("boards", boards);
 		req.setAttribute("articleId", articleId);
@@ -222,4 +242,81 @@ public class ArticleController extends Controller {
 		return msgAndReplace(req, articleId + "번 게시물이 삭제되었습니다.", String.format("list?boardId=1"));
 
 	}
+
+	public String addLike(HttpServletRequest req, HttpServletResponse resp) {
+		HttpSession session = req.getSession();
+		int memberId = (int) session.getAttribute("loginedMemberId");
+		
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+
+		
+		articleService.addLike(memberId, articleId, "article",1);
+		
+		return msgAndReplace(req, "좋아요 되었습니다", "detail?articleId="+articleId);
+	}
+
+	public String addDislike(HttpServletRequest req, HttpServletResponse resp) {
+		HttpSession session = req.getSession();
+		int memberId = (int) session.getAttribute("loginedMemberId");
+
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+
+		
+		articleService.addLike(memberId, articleId, "article",0);
+		
+		return msgAndReplace(req, "싫어요 되었습니다", "detail?articleId="+articleId);
+	}
+	
+	public String removeLike(HttpServletRequest req, HttpServletResponse resp) {
+		HttpSession session = req.getSession();
+		int memberId = (int) session.getAttribute("loginedMemberId");
+	
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+
+	
+		articleService.removeLike(memberId, articleId, "article",1);
+	
+		
+		return msgAndReplace(req, "좋아요가 취소 되었습니다", "detail?articleId="+articleId);
+	}
+
+	
+
+	public String removeDislike(HttpServletRequest req, HttpServletResponse resp) {
+		HttpSession session = req.getSession();
+		int memberId = (int) session.getAttribute("loginedMemberId");
+	
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+
+	
+		articleService.removeLike(memberId, articleId, "article",0);
+	
+		
+		return msgAndReplace(req, "싫어요가 취소 되었습니다", "detail?articleId="+articleId);
+	}
+	public String addreply(HttpServletRequest req, HttpServletResponse resp) {
+		String rbody = req.getParameter("rbody");
+		int memberId = Integer.parseInt(req.getParameter("loginedMemberId"));
+		
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+		
+		articleService.addReply(rbody,memberId,articleId);
+		
+		
+		
+		return msgAndReplace(req, "댓글이 추가되었습니다.","detail?articleId="+articleId);
+		
+	}
+
+	public String deleteReply(HttpServletRequest req, HttpServletResponse resp) {
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+		
+		int id = Integer.parseInt(req.getParameter("id"));
+		
+		articleService.deleteReply(id);
+		
+		return msgAndReplace(req, "댓글이 삭제되었습니다", "detail?articleId="+articleId);
+	}
+
+	
 }

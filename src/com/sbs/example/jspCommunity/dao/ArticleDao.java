@@ -7,6 +7,7 @@ import java.util.Map;
 import com.sbs.example.jspCommunity.dto.Article;
 import com.sbs.example.jspCommunity.dto.Board;
 import com.sbs.example.jspCommunity.dto.Member;
+import com.sbs.example.jspCommunity.dto.Reply;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
@@ -14,7 +15,7 @@ public class ArticleDao {
 
 	public List<Article> getForPrintArticlesByBoardId(int boardId, String searchKeywordType, String searchKeyword) {
 		List<Article> articles = new ArrayList<>();
-		
+
 		SecSql sql = new SecSql();
 		sql.append("SELECT A.*");
 		sql.append(", M.name AS extra__writer");
@@ -35,7 +36,8 @@ public class ArticleDao {
 			} else if (searchKeywordType.equals("body")) {
 				sql.append("AND A.body LIKE CONCAT('%', ? '%')", searchKeyword);
 			} else if (searchKeywordType.equals("titleAndBody")) {
-				sql.append("AND (A.title LIKE CONCAT('%', ? '%') OR A.body LIKE CONCAT('%', ? '%'))", searchKeyword, searchKeyword);
+				sql.append("AND (A.title LIKE CONCAT('%', ? '%') OR A.body LIKE CONCAT('%', ? '%'))", searchKeyword,
+						searchKeyword);
 			}
 		}
 
@@ -49,6 +51,7 @@ public class ArticleDao {
 
 		return articles;
 	}
+
 	public Article getArticleById(int articleId) {
 		SecSql sql = new SecSql();
 		sql.append("SELECT A.*");
@@ -87,7 +90,7 @@ public class ArticleDao {
 	}
 
 	public int add(String title, String body, int memberId, int boardId) {
-		
+
 		SecSql sql = new SecSql();
 		sql.append("INSERT INTO ARTICLE");
 		sql.append("SET TITLE = ?", title);
@@ -95,7 +98,7 @@ public class ArticleDao {
 		sql.append(",updateDate = now()");
 		sql.append(",`body`= ?,memberId = ?", body, memberId);
 		sql.append(",boardId = ?;", boardId);
-		System.out.printf(title, body, memberId, boardId);
+		
 		return MysqlUtil.insert(sql);
 	}
 
@@ -139,15 +142,12 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT memberId");
 		sql.append("FROM article AS A");
-		sql.append("where id = ?",articleId);
-		
-		int memberId = MysqlUtil.selectRowIntValue(sql);
+		sql.append("where id = ?", articleId);
 
-		
+		int memberId = MysqlUtil.selectRowIntValue(sql);
 
 		return memberId;
 
-	
 	}
 
 	public int getArticlesCountByBoardId(int boardId, String searchKeywordType, String searchKeyword) {
@@ -166,24 +166,166 @@ public class ArticleDao {
 			} else if (searchKeywordType.equals("body")) {
 				sql.append("AND A.body LIKE CONCAT('%', ? '%')", searchKeyword);
 			} else if (searchKeywordType.equals("titleAndBody")) {
-				sql.append("AND (A.title LIKE CONCAT('%', ? '%') OR A.body LIKE CONCAT('%', ? '%'))", searchKeyword, searchKeyword);
+				sql.append("AND (A.title LIKE CONCAT('%', ? '%') OR A.body LIKE CONCAT('%', ? '%'))", searchKeyword,
+						searchKeyword);
 			}
 		}
 
 		return MysqlUtil.selectRowIntValue(sql);
 	}
+
 	public void updateHits(int articleId, int updatedHits) {
 		SecSql sql = new SecSql();
 		sql.append("UPDATE article");
-		sql.append("SET hitsCount= ?",updatedHits);
-		sql.append("WHERE id = ? ;",articleId);
-		
+		sql.append("SET hitsCount= ?", updatedHits);
+		sql.append("WHERE id = ? ;", articleId);
+
 		MysqlUtil.update(sql);
-	
+
 	}
 
-	
-}
+	public void addLike(int memberId, int articleId, String relType, int likeOrNot) {
+		// 1이면 좋아요 0이면 싫어요
+		if (likeOrNot == 1) {
+			int likePoint = 1;
 
-	
+			SecSql sql = new SecSql();
+			sql.append("INSERT INTO `like`");
+			sql.append("SET relTypeCode = ?", relType);
+			sql.append(",relId = ?", articleId);
+			sql.append(",memberId=?", memberId);
+			sql.append(",point=?;", likePoint);
+
+			MysqlUtil.insert(sql);
+
+		}
+
+		else if (likeOrNot == 0) {
+
+			int disLikePoint = -1;
+
+			SecSql sql = new SecSql();
+			sql.append("INSERT INTO `like`");
+			sql.append("SET relTypeCode = ?", relType);
+			sql.append(",relId = ?", articleId);
+			sql.append(",memberId=?", memberId);
+			sql.append(",point= ? ;", disLikePoint);
+
+			MysqlUtil.insert(sql);
+
+		}
+
+	}
+
+	public boolean decideLike(int id, int memberId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT * FROM `like`");
+		sql.append("WHERE relTypeCode = ?", "article");
+		sql.append("AND memberId = ?", memberId);
+		sql.append("AND relId = ?", id);
+		sql.append("AND `point` = ?", 1);
+
+		if (MysqlUtil.selectRow(sql).isEmpty()) {
+			return true;
+		} else {
+			return false;
+
+		}
+
+	}
+
+	public boolean decidedislike(int id, int memberId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT * FROM `like`");
+		sql.append("WHERE relTypeCode = ?", "article");
+		sql.append("AND memberId = ?", memberId);
+		sql.append("AND relId = ?", id);
+		sql.append("AND `point` = ?", -1);
+		// 싫어요 않함
+
+		if (MysqlUtil.selectRow(sql).isEmpty()) {
+			return true;
+		}
+
+		else {
+			return false;
+
+		}
+
+	}
+
+	public void removeLike(int memberId, int articleId, String relType, int likeOrNot) {
+		// 1이면 좋아요 0이면 싫어요
+		if (likeOrNot == 1) {
+			int likePoint = 1;
+
+			SecSql sql = new SecSql();
+			sql.append("DELETE FROM `like`");
+			sql.append("WHERE relTypeCode = ?", relType);
+			sql.append("AND relId = ?", articleId);
+			sql.append("AND memberId=?", memberId);
+			sql.append("AND point=?;", likePoint);
+
+			MysqlUtil.delete(sql);
+
+		}
+
+		else if (likeOrNot == 0) {
+
+			int disLikePoint = -1;
+
+			SecSql sql = new SecSql();
+			sql.append("DELETE FROM `like`");
+			sql.append("WHERE relTypeCode = ?", relType);
+			sql.append("AND relId = ?", articleId);
+			sql.append("AND memberId=?", memberId);
+			sql.append("AND point=?;", disLikePoint);
+
+			MysqlUtil.delete(sql);
+
+
+
+		}
+		
+	}
+
+	public void addReply(String rbody, int memberId, int articleId) {
+
+		SecSql sql = new SecSql();
+		sql.append("INSERT INTO reply");
+		sql.append("SET relTypeCode = ? ", "article");
+		sql.append(", relId=?", articleId);
+		sql.append(", writerId=?", memberId);
+		sql.append(", rbody=?",rbody);
+		
+		 MysqlUtil.insert(sql);
+		
+	}
+
+	public List<Reply> getReplyByArticleId(int id) {
+		List<Reply> replies = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT * FROM reply");
+		sql.append("WHERE relTypeCode = ?","article");
+		sql.append("AND relId = ?",id);
+		
+		List<Map<String, Object>> replyMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> replyMap : replyMapList) {
+			replies.add(new Reply(replyMap));
+		}
+		return replies;
+	}
+
+	public void deleteReply(int id) {
+		SecSql sql = new SecSql();
+		sql.append("DELETE FROM reply");
+		sql.append("WHERE id = ?",id);
+		
+		MysqlUtil.delete(sql);
+	}
+		
+	}
+
 
