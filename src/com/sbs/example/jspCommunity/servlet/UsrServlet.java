@@ -101,7 +101,21 @@ public class UsrServlet extends DispatcherServlet {
 			else if (actionMethodName.equals("deleteReply")) {
 				jspPath = articleController.deleteReply(req, resp);
 			}
-		
+			else if (actionMethodName.equals("addLikeR")) {
+				jspPath = articleController.addLikeR(req, resp);
+			}
+			else if (actionMethodName.equals("addDislikeR")) {
+				jspPath = articleController.addDislikeR(req, resp);
+			}
+			else if (actionMethodName.equals("removeLikeR")) {
+				jspPath = articleController.removeLikeR(req, resp);
+			}
+			else if (actionMethodName.equals("removeDislikeR")) {
+				jspPath = articleController.removeDislikeR(req, resp);
+			}
+			else if (actionMethodName.equals("articlehits")) {
+				jspPath = articleController.articlehits(req, resp);
+			}
 		
 		} else if (controllerName.equals("home")) {
 			HomeController homeController = Container.homeController;

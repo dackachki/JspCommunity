@@ -18,6 +18,30 @@
 		}
 		form.submit();
 	}
+	function article_Hits(){
+		localStorage.setItem("hits", true);
+		$.ajax({
+		    url: "articlehits",
+		    type: "GET",
+		    data: {"hits": "true","articleId":"${articleId}"},
+		    success: function (data) {
+						localStorage.setItem("Updated",true);	            
+		        }
+		});
+					
+		}
+		if(localStorage.getItem("Updated",true)){
+			setTimeout(function(){alert("asdasdasd")}, 5000);
+			localStorage.removeItem("Updated")
+				}
+		
+		
+		else {
+			setTimeout(function(){article_Hits()}, 5000);
+			}
+	
+	
+	
 </script>
 
 <div class="con-min-width">
@@ -148,9 +172,18 @@
 			<c:if test="${sessionScope.loginedMemberId eq reply.memberId}">
 				<button
 					onclick="location.href='deleteReply?id=${reply.id}&articleId=${articleId}'">
-					<i class="fas fa-minus"></i>삭제
+					<i class="fas fa-minus"></i>
 				</button>
 			</c:if>
+			<button
+				onclick="location.href='addLikeR?articleId=${article.getId()}'">
+				<i class="fas fa-thumbs-up"></i>
+			</button>
+
+			<button
+			onclick="location.href='addDislikeR?articleId=${article.getId()}'">
+				<i class="fas fa-thumbs-down"></i>
+			</button>
 			<br>
 		</c:forEach>
 	</div>

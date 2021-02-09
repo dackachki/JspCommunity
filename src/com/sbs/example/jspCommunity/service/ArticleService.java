@@ -70,8 +70,8 @@ public class ArticleService {
 		return articleDao.getForPrintArticlesByBoardId(boardId, searchKeywordType, searchKeyword);
 	}
 
-	public void updateHits(int articleId, int updatedHits) {
-		articleDao.updateHits(articleId, updatedHits);
+	public void updateHits(int articleId) {
+		articleDao.updateHits(articleId);
 
 	}
 
@@ -108,6 +108,10 @@ public class ArticleService {
 
 		articleDao.deleteReply(id);
 		
+	}
+
+	public int getLikeAmount(int articleId, String relTypeCode, int i) {
+		return articleDao.getLikeAmount(articleId,relTypeCode,i);
 	}
 
 }

@@ -123,25 +123,18 @@ public class ArticleController extends Controller {
 		String boardName = articleService.getBoardNameById(articleId);
 		int memberId = articleService.getMemberIdByArticleId(articleId);
 		Article article = articleService.getArticleById(articleId);
+	
+		//로그인 안했을때 좋아요 싫어요 버튼 출력x
 		if(session.getAttribute("loginedMemberId") != null) {
 		int loginedMemberId = (int)session.getAttribute("loginedMemberId");
-		
 		boolean isLiked = articleService.decideLike(article.getId(),loginedMemberId);
 		boolean isDisliked = articleService.decidedislike(article.getId(),loginedMemberId);
 		//true = 데이터 없음 false = 데이터 있음
-	
-		
 		req.setAttribute("isLiked", isLiked);
 		req.setAttribute("isDisliked", isDisliked);
-		
 		}
-		int hits = article.getHitsCount();
-		hits += 1;
-		article.setHitsCount(hits);	
+		
 		List<Reply> replies = articleService.getReplyByArticleId(article.getId());
-		
-		
-		articleService.updateHits(article.getId(), hits);
 		
 		req.setAttribute("replies", replies);
 		req.setAttribute("boardName", boardName);
@@ -318,5 +311,54 @@ public class ArticleController extends Controller {
 		return msgAndReplace(req, "댓글이 삭제되었습니다", "detail?articleId="+articleId);
 	}
 
+	public String addLikeR(HttpServletRequest req, HttpServletResponse resp) {
+		HttpSession session = req.getSession();
+		int memberId = (int) session.getAttribute("loginedMemberId");
+		
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+
+		
+		articleService.addLike(memberId, articleId, "reply",1);
+		
+		return msgAndReplace(req, "댓글 좋아요가 되었습니다", "detail?articleId="+articleId);
+	}
+
+	public String addDislikeR(HttpServletRequest req, HttpServletResponse resp) {
+		HttpSession session = req.getSession();
+		int memberId = (int) session.getAttribute("loginedMemberId");
+		
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+		
+		
+		articleService.addLike(memberId, articleId, "reply",0);
+		
+		return msgAndReplace(req, "댓글 싫어요가 되었습니다", "detail?articleId="+articleId);
 	
-}
+	}
+
+	public String removeLikeR(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String removeDislikeR(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void articlehits(HttpServletRequest req, HttpServletResponse resp) {
+		String hits = (String)req.getParameter("hits");
+		int articleId = Integer.parseInt(req.getParameter("articleId"));
+		
+		if(hits.equals("true")) {
+					
+			articleService.updateHits(articleId);
+	
+		}
+		else {
+			System.out.println("????");
+		}
+	
+	}
+	}
+

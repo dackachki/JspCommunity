@@ -174,10 +174,10 @@ public class ArticleDao {
 		return MysqlUtil.selectRowIntValue(sql);
 	}
 
-	public void updateHits(int articleId, int updatedHits) {
+	public void updateHits(int articleId) {
 		SecSql sql = new SecSql();
 		sql.append("UPDATE article");
-		sql.append("SET hitsCount= ?", updatedHits);
+		sql.append("SET hitsCount= hitsCount+1");
 		sql.append("WHERE id = ? ;", articleId);
 
 		MysqlUtil.update(sql);
@@ -324,6 +324,11 @@ public class ArticleDao {
 		sql.append("WHERE id = ?",id);
 		
 		MysqlUtil.delete(sql);
+	}
+
+	public int getLikeAmount(int articleId, String relTypeCode, int i) {
+		
+		return 0;
 	}
 		
 	}
