@@ -13,6 +13,8 @@ public class Reply {
 	String rbody;
 	int relId;
 	int memberId;
+	String writerNick;
+	
 public Reply(Map<String, Object> replyMap) {
 	this.id = (int) replyMap.get("id");
 	this.regDate = (String) replyMap.get("regDate");
@@ -21,7 +23,7 @@ public Reply(Map<String, Object> replyMap) {
 	this.relId = (int) replyMap.get("relId");
 	this.relTypeCode = (String) replyMap.get("relTypeCode");
 	this.memberId = (int) replyMap.get("writerId");
-	
+	this.writerNick= (String)replyMap.get("nickname");
 	
 	}
 	

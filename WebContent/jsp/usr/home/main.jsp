@@ -40,7 +40,9 @@
 	<br>
 	</li>
 	<li>
-	<a href="../article/list?boardId=3&pageNo=1"class="highlight">자유게시판</a>
+	<a href="../article/list?boardId=3&pageNo=1"class="highlight">자유 게시판</a>
+	<br>
+	<a href="../article/list?boardId=4&pageNo=1"class="highlight">정보 게시판</a>
 	<br>
 </li>
 

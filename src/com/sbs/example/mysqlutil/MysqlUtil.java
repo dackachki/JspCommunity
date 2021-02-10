@@ -17,7 +17,7 @@ public class MysqlUtil {
 	private static String dbLoginId;
 	private static String dbLoginPw;
 	private static String dbName;
-	private static boolean isDevMode;
+	public static boolean isDevMode;
 
 	private static Map<Long, Connection> connections;
 

@@ -1,0 +1,139 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!doctype html>
+<html lang="ko">
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 토스트 UI 시작 -->
+<!-- 하이라이트 라이브러리 추가, 토스트 UI 에디터에서 사용됨 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.1/styles/default.min.css">
+
+<!-- 토스트 UI 에디터, 자바스크립트 코어 -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js" defer></script>
+
+<!-- 코드 미러 라이브러리 추가, 토스트 UI 에디터에서 사용됨 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css" />
+<!-- 토스트 UI 에디터, CSS 코어 -->
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+<!-- 토스트 UI 에디터, 신택스 하이라이트 플러그인 추가 -->
+<script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.js" defer></script>
+<!-- 토스트 UI 끝 -->
+
+<!-- 제이쿼리 불러오기 -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- 폰트어썸 불러오기 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/static/common.css" />
+
+<script src="${pageContext.request.contextPath}/static/cmmn.js" defer></script>
+
+<!-- icofont 불러오기 -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resource/icofont/icofont.min.css">
+<style>
+.top-menu>a:hover {
+	color: white;
+	background-color: black;
+}
+
+.highlight:hover {
+	color: white;
+	background-color: black;
+}
+
+body {
+	background-color: beige;
+}
+
+.top-bar1 {
+	text-align: center;
+}
+
+.logobar {
+	display: inline-block;
+	padding: 15px;
+	background-color: white;
+	border-radius: 30px;
+}
+
+.logo {
+	font-weight: bold;
+	font-size: 3rem;
+}
+.footer-bar1{
+	text-align: center;
+	
+}
+</style>
+
+<meta charset="UTF-8" />
+<title>${pageTitle}</title>
+</head>
+<body>
+
+
+	<header class="con-min-width">
+		<c:if test="${sessionScope.loginedMemberId > 0}">
+			<div class="con">
+				회원 번호 : ${sessionScope.loginedMemberId} / 닉네임:
+				${sessionScope.loginedMemberNick}
+				<hr>
+			</div>
+		</c:if>
+		<c:if test="${sessionScope.isUsingTempPw}">
+			<div class="UsingTempPw con" style="color:red;">현재 임시 비밀번호를 사용중입니다. ${expireDate}일 전까지 비밀번호를 재설정 해주세요.
+			<hr>
+			</div>
+		
+		</c:if>
+		
+		<div class="con top-menu">
+
+			<a href="../home/main">메인 </a>|
+		
+			<c:if test="${sessionScope.loginedMemberId > 0}">
+				<a href="../article/add?boardId=1">글쓰기</a> |
+			<a href="../member/doLogout">로그아웃 </a>|
+			<a href="../member/MModify">회원정보 수정 </a>|
+		</c:if>
+
+			<c:if test="${sessionScope.loginedMemberId == null}">
+				<a href="../member/login">로그인 </a> |
+			<a href="../member/join">회원가입</a> |
+			<a href="../member/findLoginId">아이디 찾기</a> |
+			<a href="../member/findLoginPw">비밀번호 찾기</a>	
+			</c:if>
+			<hr>
+		</div>
+
+		<div class="con top-bar1">
+			<div class="con logobar">
+				<a href="#" class="logo"> <i class="icofont-cow-head"></i> B l a
+					c k C o w E d i t i o n
+				</a>
+				
+			</div>
+			
+			
+			
+			
+		<div class="con top-bar1 visible-sm-down">
+			<div class="con logobar">
+				<a href="#" class="logo"> <i class="icofont-cow-head"></i>
+				</a>
+				
+			</div>
+	<hr>
+		</div>
+
+</div>
+	</header>

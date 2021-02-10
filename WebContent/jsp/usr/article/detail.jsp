@@ -18,30 +18,33 @@
 		}
 		form.submit();
 	}
-	function article_Hits(){
+	function article_Hits() {
 		localStorage.setItem("hits", true);
 		$.ajax({
-		    url: "articlehits",
-		    type: "GET",
-		    data: {"hits": "true","articleId":"${articleId}"},
-		    success: function (data) {
-						localStorage.setItem("Updated",true);	            
-		        }
-		});
-					
-		}
-		if(localStorage.getItem("Updated",true)){
-			setTimeout(function(){alert("asdasdasd")}, 5000);
-			localStorage.removeItem("Updated")
-				}
-		
-		
-		else {
-			setTimeout(function(){article_Hits()}, 5000);
+			url : "articlehits",
+			type : "GET",
+			data : {
+				"hits" : "true",
+				"articleId" : "${articleId}"
+			},
+			success : function(data) {
+				localStorage.setItem("Updated", true);
 			}
-	
-	
-	
+		});
+
+	}
+	if (localStorage.getItem("Updated", true)) {
+		setTimeout(function() {
+			localStorage.removeItem("Updated")
+		}, 3000);
+	}
+
+	else {
+		setTimeout(function() {
+			article_Hits()
+		}, 5000);
+
+	}
 </script>
 
 <div class="con-min-width">
@@ -160,15 +163,20 @@
 
 			</c:otherwise>
 		</c:choose>
+		<hr>
 	</div>
 </div>
 
 <div class="con-min-width">
 	<div class="replyList con">
 		<c:forEach var="reply" items="${replies}">
-			작성일자:  ${reply.regDate} / 
-			${reply.rbody}
-			${reply.memberId}
+		
+			<a>${reply.regDate}</a>/
+			<a>닉네임:${reply.writerNick} </a>
+			<br>
+			<a style="margin:20px;">${reply.rbody}</a>
+
+
 			<c:if test="${sessionScope.loginedMemberId eq reply.memberId}">
 				<button
 					onclick="location.href='deleteReply?id=${reply.id}&articleId=${articleId}'">
@@ -181,11 +189,14 @@
 			</button>
 
 			<button
-			onclick="location.href='addDislikeR?articleId=${article.getId()}'">
+				onclick="location.href='addDislikeR?articleId=${article.getId()}'">
 				<i class="fas fa-thumbs-down"></i>
 			</button>
 			<br>
+		
+			<hr style="border: 1px dashed">
 		</c:forEach>
+	
 	</div>
 </div>
 

@@ -55,37 +55,55 @@ public abstract class DispatcherServlet extends HttpServlet {
 		String requestUri = req.getRequestURI();
 		String[] requestUriBits = requestUri.split("/");
 
-		if (requestUriBits.length < 5) {
+		String profilesActive = System.getProperty("spring.profiles.active");
+
+		boolean isProductionMode = false;
+
+		if (profilesActive != null && profilesActive.equals("production")) {
+			isProductionMode = true;
+		}
+
+		int requestUriBitsMinCount = 5;
+
+		if (isProductionMode) {
+			requestUriBitsMinCount = 4;
+		}
+
+		if (requestUriBits.length < requestUriBitsMinCount) {
 			resp.getWriter().append("올바른 요청이 아닙니다.");
 			return null;
 		}
 
-		String profilesActive = System.getProperty("spring.profiles.active");
-		
-		boolean isProductionMode = false;
-
-		if (profilesActive != null && profilesActive.equals("production")) {
-		  isProductionMode = true;
-		}
-				
-		if ( isProductionMode ) {
-		  MysqlUtil.setDBInfo("127.0.0.1", "sbsstLocal", "sbs123414", "jspCommunity");
-		}
+		if (isProductionMode) {
+			MysqlUtil.setDBInfo("127.0.0.1", "sbsst", "sbs123414", "jspCommunityReal");
+		} 
 		else {
-		  MysqlUtil.setDBInfo("127.0.0.1", "sbsst", "sbs123414", "jspCommunity");			
+			MysqlUtil.setDBInfo("127.0.0.1", "sbsst", "sbs123414", "jspCommunity");
+			Util.setDevMode(true);
+			
 		}
 
-		String directoryName = requestUriBits[2];
-		String controllerName = requestUriBits[3];
-		String actionMethodName = requestUriBits[4];
+		String directoryName;
+		String controllerName;
+		String actionMethodName;
+
+		if (isProductionMode) {
+			directoryName = requestUriBits[1];
+			controllerName = requestUriBits[2];
+			actionMethodName = requestUriBits[3];
+		} else {
+			directoryName = requestUriBits[2];
+			controllerName = requestUriBits[3];
+			actionMethodName = requestUriBits[4];
+		}
 
 		String actionUrl = "/" + directoryName + "/" + controllerName + "/" + actionMethodName;
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 		Member loginedMember = null;
-		
+
 		HttpSession session = req.getSession();
-		
+
 		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
@@ -95,16 +113,16 @@ public abstract class DispatcherServlet extends HttpServlet {
 		req.setAttribute("isLogined", isLogined);
 		req.setAttribute("loginedMemberId", loginedMemberId);
 		req.setAttribute("loginedMember", loginedMember);
-		
-		String currentURL =req.getRequestURI();
-		
-		if(req.getQueryString() != null) {
+
+		String currentURL = req.getRequestURI();
+
+		if (req.getQueryString() != null) {
 			currentURL += "?" + req.getQueryString();
-			
+
 		}
-		
+
 		String encodedcurrentURL = Util.getUrlEncoded(currentURL);
-		
+
 		req.setAttribute("currentURL", currentURL);
 		req.setAttribute("encodedcurrentURL", encodedcurrentURL);
 
@@ -117,8 +135,7 @@ public abstract class DispatcherServlet extends HttpServlet {
 		loginRequiredList.add("/usr/article/doDelete");
 		loginRequiredList.add("/usr/article/MModify");
 		loginRequiredList.add("/usr/article/doMModify");
-		
-		
+
 		List<String> loginNotRequiredList = new ArrayList<>();
 		loginNotRequiredList.add("/usr/member/doLogin");
 		loginNotRequiredList.add("/usr/member/login");
@@ -126,8 +143,7 @@ public abstract class DispatcherServlet extends HttpServlet {
 		loginNotRequiredList.add("/usr/member/join");
 		loginNotRequiredList.add("/usr/member/doFindLoginPw");
 		loginNotRequiredList.add("/usr/member/doFindLoginId");
-		
-		
+
 		if (loginRequiredList.contains(actionUrl)) {
 
 			if (session.getAttribute("loginedMemberId") == null) {
@@ -137,22 +153,22 @@ public abstract class DispatcherServlet extends HttpServlet {
 				rd.forward(req, resp);
 			}
 		}
-		
-		if(loginNotRequiredList.contains(actionUrl)) {
+
+		if (loginNotRequiredList.contains(actionUrl)) {
 			if (session.getAttribute("loginedMemberId") != null) {
-			req.setAttribute("alertMsg", "현재 로그인 중입니다.");
-			req.setAttribute("replaceUrl", "../home/main");
-			RequestDispatcher rd = req.getRequestDispatcher("/jsp/common/redirect.jsp");
-			rd.forward(req, resp);
+				req.setAttribute("alertMsg", "현재 로그인 중입니다.");
+				req.setAttribute("replaceUrl", "../home/main");
+				RequestDispatcher rd = req.getRequestDispatcher("/jsp/common/redirect.jsp");
+				rd.forward(req, resp);
 			}
 		}
-		
+
 		Map<String, Object> rs = new HashMap<>();
 		rs.put("controllerName", controllerName);
 		rs.put("actionMethodName", actionMethodName);
 
 		return rs;
-	}	
+	}
 
 	protected abstract String doAction(HttpServletRequest req, HttpServletResponse resp, String controllerName,
 			String actionMethodName);

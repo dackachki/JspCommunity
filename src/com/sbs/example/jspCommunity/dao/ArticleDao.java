@@ -80,7 +80,7 @@ public class ArticleDao {
 	public Board getBoardByArticleId(int boardId) {
 
 		SecSql sql = new SecSql();
-		sql.append("SELECT * FROM BOARD WHERE ID = ?", boardId);
+		sql.append("SELECT * FROM board WHERE ID = ?", boardId);
 
 		Map<String, Object> boardMap = MysqlUtil.selectRow(sql);
 
@@ -118,7 +118,7 @@ public class ArticleDao {
 		List<Board> boards = new ArrayList<>();
 
 		SecSql sql = new SecSql();
-		sql.append("SELECT * FROM BOARD");
+		sql.append("SELECT * FROM board");
 
 		List<Map<String, Object>> boardMapList = MysqlUtil.selectRows(sql);
 
@@ -306,7 +306,9 @@ public class ArticleDao {
 		List<Reply> replies = new ArrayList<>();
 
 		SecSql sql = new SecSql();
-		sql.append("SELECT * FROM reply");
+		sql.append("SELECT r.*,m.nickname FROM reply as r");
+		sql.append("JOIN `member` as m");
+		sql.append("ON r.writerId = m.id");
 		sql.append("WHERE relTypeCode = ?","article");
 		sql.append("AND relId = ?",id);
 		

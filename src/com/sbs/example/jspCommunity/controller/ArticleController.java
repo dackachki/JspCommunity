@@ -136,6 +136,7 @@ public class ArticleController extends Controller {
 		
 		List<Reply> replies = articleService.getReplyByArticleId(article.getId());
 		
+		
 		req.setAttribute("replies", replies);
 		req.setAttribute("boardName", boardName);
 		req.setAttribute("memberId", memberId);
@@ -346,7 +347,7 @@ public class ArticleController extends Controller {
 		return null;
 	}
 
-	public void articlehits(HttpServletRequest req, HttpServletResponse resp) {
+	public String articlehits(HttpServletRequest req, HttpServletResponse resp) {
 		String hits = (String)req.getParameter("hits");
 		int articleId = Integer.parseInt(req.getParameter("articleId"));
 		
@@ -358,7 +359,7 @@ public class ArticleController extends Controller {
 		else {
 			System.out.println("????");
 		}
-	
+	return null;
 	}
 	}
 

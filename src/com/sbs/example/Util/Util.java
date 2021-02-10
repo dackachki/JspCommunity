@@ -20,6 +20,7 @@ import javax.mail.internet.MimeMessage;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sbs.example.mysqlutil.MysqlUtil;
 
 public class Util {
 	public static Map getJsonMapFromFile(InputStream is) {
@@ -159,6 +160,10 @@ public class Util {
 		} catch (UnsupportedEncodingException e) {
 			return url;
 		}
+	}
+	
+	public static void setDevMode(boolean isDevMode) {
+		MysqlUtil.isDevMode = isDevMode;
 	}
 	
 }
