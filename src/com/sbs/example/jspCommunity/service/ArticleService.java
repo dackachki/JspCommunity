@@ -114,4 +114,9 @@ public class ArticleService {
 		return articleDao.getLikeAmount(articleId,relTypeCode,i);
 	}
 
+	public List<Article> getRecentArticles(String boardName) {
+		return articleDao.getRecentArticles(boardName);
+		
+	}
+
 }

@@ -21,11 +21,19 @@ public class ArticleDao {
 		sql.append(", M.name AS extra__writer");
 		sql.append(", B.name AS extra__boardName");
 		sql.append(", B.code AS extra__boardCode");
+		sql.append(", IFNULL(SUM(L.point), 0) AS extra__likePoint");
+		sql.append(", IFNULL(SUM(IF(L.point > 0, L.point, 0)), 0) AS extra__likeOnlyPoint");
+		sql.append(", IFNULL(SUM(IF(L.point < 0, L.point * -1, 0)), 0) extra__dislikeOnlyPoint");
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
 		sql.append("INNER JOIN `board` AS B");
 		sql.append("ON A.boardId = B.id");
+		sql.append("LEFT JOIN `like` AS L");
+		sql.append("ON L.relTypeCode = 'article'");
+		sql.append("AND A.id = L.relId");
+		
+		
 		if (boardId != 0) {
 			sql.append("WHERE A.boardId = ?", boardId);
 		}
@@ -40,7 +48,7 @@ public class ArticleDao {
 						searchKeyword);
 			}
 		}
-
+		sql.append("GROUP BY A.id");
 		sql.append("ORDER BY A.id DESC");
 
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
@@ -59,15 +67,24 @@ public class ArticleDao {
 		sql.append(", B.name AS extra__boardName");
 		sql.append(", B.code AS extra__boardCode");
 		sql.append(", M.nickname AS extra__nickname");
+		sql.append(", IFNULL(SUM(L.point), 0) AS extra__likePoint");
+		sql.append(", IFNULL(SUM(IF(L.point > 0, L.point, 0)), 0) AS extra__likeOnlyPoint");
+		sql.append(", IFNULL(SUM(IF(L.point < 0, L.point * -1, 0)), 0) extra__dislikeOnlyPoint");
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
 		sql.append("INNER JOIN `board` AS B");
 		sql.append("ON A.boardId = B.id");
+		sql.append("LEFT JOIN `like` AS L");
+		sql.append("ON L.relTypeCode = 'article'");
+		sql.append("AND A.id = L.relId");
+		
 		if (articleId != 0) {
 			sql.append("WHERE A.id = ?", articleId);
 		}
+		sql.append("GROUP BY A.id");
 		sql.append("ORDER BY A.id DESC");
+		
 
 		Map<String, Object> articleMap = MysqlUtil.selectRow(sql);
 
@@ -331,6 +348,38 @@ public class ArticleDao {
 	public int getLikeAmount(int articleId, String relTypeCode, int i) {
 		
 		return 0;
+	}
+
+	public List<Article> getRecentArticles(String boardName) {
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+		sql.append("SELECT A.*");
+		sql.append(", M.name AS extra__writer");
+		sql.append(", B.name AS extra__boardName");
+		sql.append(", B.code AS extra__boardCode");
+		sql.append(", IFNULL(SUM(L.point), 0) AS extra__likePoint");
+		sql.append(", IFNULL(SUM(IF(L.point > 0, L.point, 0)), 0) AS extra__likeOnlyPoint");
+		sql.append(", IFNULL(SUM(IF(L.point < 0, L.point * -1, 0)), 0) extra__dislikeOnlyPoint");
+		sql.append("FROM article AS A");
+		sql.append("INNER JOIN `member` AS M");
+		sql.append("ON A.memberId = M.id");
+		sql.append("INNER JOIN `board` AS B");
+		sql.append("ON A.boardId = B.id");
+		sql.append("LEFT JOIN `like` AS L");
+		sql.append("ON L.relTypeCode = 'article'");
+		sql.append("AND A.id = L.relId");
+		sql.append("WHERE B.code = ?",boardName);
+		sql.append("GROUP BY A.id");
+		sql.append("ORDER BY A.id DESC");
+		sql.append("limit 5");
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
 	}
 		
 	}

@@ -18,31 +18,33 @@
 		}
 		form.submit();
 	}
-	function article_Hits(){
+	function article_Hits() {
 		localStorage.setItem("hits", true);
 		$.ajax({
-		    url: "articlehits",
-		    type: "GET",
-		    data: {"hits": "true","articleId":"${articleId}"},
-		    success: function (data) {
-						localStorage.setItem("Updated",true);	            
-		        }
-		});
-					
-		}
-		if(localStorage.getItem("Updated",true)){
-			setTimeout(function(){localStorage.removeItem("Updated")}, 3000);
-				}
-		
-		
-		else {
-			setTimeout(function(){article_Hits()}, 5000);
-			
-			
+			url : "articlehits",
+			type : "GET",
+			data : {
+				"hits" : "true",
+				"articleId" : "${articleId}"
+			},
+			success : function(data) {
+				localStorage.setItem("Updated", true);
 			}
-	
-	
-	
+		});
+
+	}
+	if (localStorage.getItem("Updated", true)) {
+		setTimeout(function() {
+			localStorage.removeItem("Updated")
+		}, 3000);
+	}
+
+	else {
+		setTimeout(function() {
+			article_Hits()
+		}, 5000);
+
+	}
 </script>
 
 <div class="con-min-width">
@@ -56,7 +58,9 @@
 			<div>작성날짜 : ${article.getRegDate()}</div>
 			<br />
 			<div>갱신날짜 : ${article.getUpdateDate()}</div>
+			<br>
 			<div>조회수: ${article.getHitsCount()}</div>
+			<div>추천수/비추천수: ${article.getExtra__likeOnlyPoint()} / ${article.getExtra__dislikeOnlyPoint()} </div>
 			<br />
 			<div>게시글 분류 : ${boardName}</div>
 			<br />
@@ -65,7 +69,7 @@
 			<hr />
 			내용:
 
-			<script type="text/x-template ">
+			<script type="text/x-template" style="background-color:beige;">
 	
 		
 			${article.getBody()}
@@ -78,9 +82,9 @@
 		</div>
 
 		<c:if test="${sessionScope.loginedMemberId > 0}">
-
+		<br>
 			<c:if test="${isLiked == true }">
-
+			
 				<button
 					onclick="location.href='addLike?articleId=${article.getId()}'">
 					좋아요 <i class="fas fa-thumbs-up"></i>
@@ -117,18 +121,23 @@
 
 <div class="bot-menu con-min-width">
 	<div class="con">
+	<hr>
 		<div>
 			<a href="detail?articleId=${article.getId() -1}" class="highlight">
 				&lt;이전글 | </a> <a href="detail?articleId=${article.getId() +1}"
 				class="highlight"> 다음글 &gt; </a> &nbsp; <a
-				href="list?boardId=${article.getBoardId()}" class="highlight">리스트
-			</a>|
+				href="list?boardId=${article.getBoardId()}" class="highlight">
+				<i class="fas fa-undo"></i> 목록으로
+			</a>
 
 			<c:if test="${sessionScope.loginedMemberId == memberId}">
-				<a href="modify?articleId=${article.getId()}" class="highlight">글
-					수정 </a>|
+				<a href="modify?articleId=${article.getId()}" class="highlight">|
+				<i class="fas fa-pen-square"></i>
+				 글 수정 </a>|
 		<a class="highlight" href="delete?articleId=${article.getId()}"
-					onclick="return confirm('게시물을 삭제하시겠습니까?');">글 삭제</a>
+					onclick="return confirm('게시물을 삭제하시겠습니까?');">
+					<i class="fas fa-minus"></i>	
+					글 삭제</a>
 			</c:if>
 		</div>
 		<hr>
@@ -158,19 +167,23 @@
 			</c:when>
 			<c:otherwise>
 				<h2>로그인 후 댓글을 작성 할수 있습니다.</h2>
-		
+
 			</c:otherwise>
 		</c:choose>
-	<hr>
+		<hr>
 	</div>
 </div>
 
 <div class="con-min-width">
 	<div class="replyList con">
 		<c:forEach var="reply" items="${replies}">
-			작성일자:  ${reply.regDate} / 
-			${reply.rbody} /
-			닉네임:${reply.writerNick}
+		
+			<a>${reply.regDate}</a>/
+			<a>닉네임:${reply.writerNick} </a>
+			<br>
+			<a style="margin:20px;">${reply.rbody}</a>
+
+
 			<c:if test="${sessionScope.loginedMemberId eq reply.memberId}">
 				<button
 					onclick="location.href='deleteReply?id=${reply.id}&articleId=${articleId}'">
@@ -183,11 +196,12 @@
 			</button>
 
 			<button
-			onclick="location.href='addDislikeR?articleId=${article.getId()}'">
+				onclick="location.href='addDislikeR?articleId=${article.getId()}'">
 				<i class="fas fa-thumbs-down"></i>
 			</button>
 			<br>
-	<hr style="border:1px dashed">	
+		
+			<hr style="border: 1px dashed">
 		</c:forEach>
 	
 	</div>

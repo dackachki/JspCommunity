@@ -42,6 +42,7 @@ body, ul, li {
 	margin: 0;
 	padding: 0;
 	list-style: none;
+	background-color: beige;
 }
 
 a {
@@ -131,7 +132,6 @@ a {
 
 /* 커스텀 시작 */
 
-
 :root {
 	--site-width: 1200px;
 }
@@ -203,6 +203,11 @@ a {
 }
 
 /* 탑바 끝 */
+/* 탑메뉴 시작 */
+.top-menu > a{
+	font-weight:bold;
+	}
+/* 탑메뉴 끝 */
 
 /* 타이틀 시작 */
 .title-bar {

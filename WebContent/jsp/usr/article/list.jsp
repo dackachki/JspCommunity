@@ -87,9 +87,13 @@
 		<div class="con">
 			<table>
 				<colgroup>
+					<col width="50">
 					<col width="100">
-					<col width="200">
+					<col width="50">
 					<col width="150">
+					<col width="50">
+					<col width="50">
+					
 				</colgroup>
 				<thead>
 					<tr>
@@ -97,18 +101,35 @@
 						<th>날짜</th>
 						<th>작성자</th>
 						<th>제목</th>
+						<th>조회수</th>
+						<th>추천수</th>
 					</tr>
 				</thead>
 				
 				<tbody>
 				<c:forEach var="article" items="${articles}">
-					<tr>
-						<td><span class="article-list-box__id">${article.getId()}</span></td>
-						<td><span class="article-list-box__reg-date">
-								${article.getRegDate()} </span></td>
-						<td><span class="article-list-box__writer"> ${article.getExtra__writer()} </span></td>
-						<td><a href="detail?articleId=${article.id}" class="article-list-box__title hover-link">
-								${article.getTitle()} </a></td>
+					<tr style="text-align:center;">
+						<td >
+						<span class="article-list-box__id">${article.getId()}</span>
+						</td>
+						<td>
+						<span class="article-list-box__reg-date">
+								${article.getRegDate()} </span>
+								</td>
+						<td style>
+						<span class="article-list-box__writer"> ${article.getExtra__writer()} </span>
+						</td>
+						
+						<td>
+						<a href="detail?articleId=${article.id}" class="article-list-box__title hover-link">
+								${article.getTitle()} </a>
+								</td>
+						<td>
+						<span class="article-list-box__id">${article.getHitsCount()}</span>
+						</td>
+						<td style>
+						<span class="article-list-box__recommand"> ${article.extra__likeOnlyPoint} </span>
+						</td>
 						<td class="visible-sm-down">
 							<div class="flex">
 								<span class="article-list-box__id article-list-box__id--mobile">${article.getId()}</span>

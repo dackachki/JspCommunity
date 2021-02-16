@@ -38,6 +38,7 @@ public class ArticleController extends Controller {
 		Board board = articleService.getBoardById(boardId);
 		int totalCount = articleService.getArticlesCountByBoardId(boardId, searchKeywordType, searchKeyword);
 		List<Article> articles = articleService.getForPrintArticlesByBoardId(boardId, searchKeywordType, searchKeyword);
+		
 
 		double lastItem = articles.size();
 		double divideV = 10;
@@ -355,11 +356,10 @@ public class ArticleController extends Controller {
 					
 			articleService.updateHits(articleId);
 	
-		}
-		else {
-			System.out.println("????");
-		}
+		}	
 	return null;
 	}
+	
+	
 	}
 

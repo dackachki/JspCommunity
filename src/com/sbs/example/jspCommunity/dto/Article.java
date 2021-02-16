@@ -17,7 +17,8 @@ public class Article {
 	private String extra__nickname;
 	private String extra__boardName;
 	private String extra__boardCode;
-	
+	private int extra__likeOnlyPoint;
+	private int extra__dislikeOnlyPoint;
 	
 
 	
@@ -32,6 +33,8 @@ public class Article {
 		this.memberId = (int) map.get("memberId");
 		this.boardId = (int) map.get("boardId");
 		this.hitsCount = (int) map.get("hitsCount");
+		
+		
 		
 
 		if (map.containsKey("extra__writer")) {
@@ -48,6 +51,13 @@ public class Article {
 		if (map.containsKey("extra__nickname")) {
 			this.extra__nickname = (String) map.get("extra__nickname");
 		}
+		if (map.containsKey("extra__likeOnlyPoint")) {
+			this.extra__likeOnlyPoint = Integer.parseInt(String.valueOf(map.get("extra__likeOnlyPoint")));
+		}
+		if (map.containsKey("extra__dislikeOnlyPoint")) {
+			this.extra__dislikeOnlyPoint = Integer.parseInt(String.valueOf(map.get("extra__dislikeOnlyPoint")));
+		}
+	
 	}
 
 	@Override

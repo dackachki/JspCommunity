@@ -49,9 +49,8 @@
 	color: white;
 	background-color: black;
 }
-
-body {
-	background-color: beige;
+body{
+background-color:beige;
 }
 
 .top-bar1 {
@@ -82,13 +81,33 @@ body {
 
 
 	<header class="con-min-width">
-		<c:if test="${sessionScope.loginedMemberId > 0}">
-			<div class="con">
+		<div class="con top-bar1">
+			<div class="con logobar">
+				<a href="#" class="logo"> <i class="icofont-cow-head"></i> B l a
+					c k C o w E d i t i o n
+				</a>
+				
+			</div>
+			
+		<div class="con top-bar1 visible-sm-down">
+			<div class="con logobar">
+				<a href="#" class="logo"> <i class="icofont-cow-head"></i>
+				</a>
+				
+			</div>
+	
+		</div>
+	<hr>
+</div>
+	<div class="con">
+	<c:if test="${sessionScope.loginedMemberId > 0}">
+			
 				회원 번호 : ${sessionScope.loginedMemberId} / 닉네임:
 				${sessionScope.loginedMemberNick}
 				<hr>
-			</div>
 		</c:if>
+			</div>
+		
 		<c:if test="${sessionScope.isUsingTempPw}">
 			<div class="UsingTempPw con" style="color:red;">현재 임시 비밀번호를 사용중입니다. ${expireDate}일 전까지 비밀번호를 재설정 해주세요.
 			<hr>
@@ -114,26 +133,8 @@ body {
 			</c:if>
 			<hr>
 		</div>
+	
 
-		<div class="con top-bar1">
-			<div class="con logobar">
-				<a href="#" class="logo"> <i class="icofont-cow-head"></i> B l a
-					c k C o w E d i t i o n
-				</a>
-				
-			</div>
-			
-			
-			
-			
-		<div class="con top-bar1 visible-sm-down">
-			<div class="con logobar">
-				<a href="#" class="logo"> <i class="icofont-cow-head"></i>
-				</a>
-				
-			</div>
-	<hr>
-		</div>
 
-</div>
+
 	</header>

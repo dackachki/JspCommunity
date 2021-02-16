@@ -58,7 +58,9 @@
 			<div>작성날짜 : ${article.getRegDate()}</div>
 			<br />
 			<div>갱신날짜 : ${article.getUpdateDate()}</div>
+			<br>
 			<div>조회수: ${article.getHitsCount()}</div>
+			<div>추천수/비추천수: ${article.getExtra__likeOnlyPoint()} / ${article.getExtra__dislikeOnlyPoint()} </div>
 			<br />
 			<div>게시글 분류 : ${boardName}</div>
 			<br />
@@ -67,7 +69,7 @@
 			<hr />
 			내용:
 
-			<script type="text/x-template ">
+			<script type="text/x-template" style="background-color:beige;">
 	
 		
 			${article.getBody()}
@@ -80,9 +82,9 @@
 		</div>
 
 		<c:if test="${sessionScope.loginedMemberId > 0}">
-
+		<br>
 			<c:if test="${isLiked == true }">
-
+			
 				<button
 					onclick="location.href='addLike?articleId=${article.getId()}'">
 					좋아요 <i class="fas fa-thumbs-up"></i>
@@ -119,18 +121,23 @@
 
 <div class="bot-menu con-min-width">
 	<div class="con">
+	<hr>
 		<div>
 			<a href="detail?articleId=${article.getId() -1}" class="highlight">
 				&lt;이전글 | </a> <a href="detail?articleId=${article.getId() +1}"
 				class="highlight"> 다음글 &gt; </a> &nbsp; <a
-				href="list?boardId=${article.getBoardId()}" class="highlight">리스트
-			</a>|
+				href="list?boardId=${article.getBoardId()}" class="highlight">
+				<i class="fas fa-undo"></i> 목록으로
+			</a>
 
 			<c:if test="${sessionScope.loginedMemberId == memberId}">
-				<a href="modify?articleId=${article.getId()}" class="highlight">글
-					수정 </a>|
+				<a href="modify?articleId=${article.getId()}" class="highlight">|
+				<i class="fas fa-pen-square"></i>
+				 글 수정 </a>|
 		<a class="highlight" href="delete?articleId=${article.getId()}"
-					onclick="return confirm('게시물을 삭제하시겠습니까?');">글 삭제</a>
+					onclick="return confirm('게시물을 삭제하시겠습니까?');">
+					<i class="fas fa-minus"></i>	
+					글 삭제</a>
 			</c:if>
 		</div>
 		<hr>
