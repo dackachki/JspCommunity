@@ -39,6 +39,8 @@
 			<version>1.1.2</version>
 			<scope>compile</scope>
 		</dependency>
+	
+
 
 
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
@@ -74,7 +76,7 @@
 					<path>/</path>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
@@ -88,9 +90,9 @@
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>

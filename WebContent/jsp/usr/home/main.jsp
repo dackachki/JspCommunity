@@ -22,7 +22,7 @@
 		<div class="boardlist">
 		<h1>최신 글 목록</h1>
 		
-			<div style="float: left; width: 25%;">
+			<div style="float: left; width: 33%;">
 				<div style="text-align:center;">공지</div>
 				<hr align="left" style="width:97%">
 				<table align="center" width="100%" bordercolor="beige">
@@ -51,58 +51,9 @@
 				</table>
 
 			</div>			
-			<div style="float: left; width: 24%;">
-				<div style="text-align:center;">방명록</div>
-				<hr align="left" style="width:97%">
-				<table align="left" width="100%" bordercolor="beige">
-					<thead style="text-align: left;">
-						<tr>
-							<th>작성일</th>
-							<th>제목</th>
-							<th>조회수</th>
-					</thead>
-
-					<tbody>
-
-						<c:forEach var="guestBookRecentArticle"
-							items="${guestBookRecentArticle}">
-							<tr>
-								<td><span>${guestBookRecentArticle.getRegDate()}</span></td>
-								<td><span onclick="location.href='../article/detail?articleId=${guestBookRecentArticle.getId()}'" class="highlight" style="cursor:pointer">${guestBookRecentArticle.getTitle()}</span></td>
-								<td><span>${guestBookRecentArticle.getHitsCount()}</span></td>
-
-							</tr>
-						</c:forEach>
-							</tbody>
-				</table>
-			</div>
-			<div style="float: left; width: 25%;">
-				<div style="text-align:center;">자유</div>
-				<hr align="left" style="width:97%">
-				<table align="left" width="100%" bordercolor="beige">
-					<thead style="text-align: left;">
-						<tr>
-							<th>작성일</th>
-							<th>제목</th>
-							<th>조회수</th>
-					</thead>
-
-					<tbody>
-
-						<c:forEach var="freeRecentArticle" items="${freeRecentArticle}">
-						<tr>
-								<td><span>${freeRecentArticle.getRegDate()}</span></td>
-								<td><span onclick="location.href='../article/detail?articleId=${freeRecentArticle.getId()}'" class="highlight" style="cursor:pointer">${freeRecentArticle.getTitle()}</span></td>
-								<td><span>${freeRecentArticle.getHitsCount()}</span></td>
-
-							</tr>
-						</c:forEach>
-							</tbody>
-				</table>
-			</div>
-			<div style="float: left; width: 25%;">
+				<div style="float: left; width: 33%;">
 				<div style="text-align:center;">정보</div>
-				<hr>
+				<hr align="left" style="width:97%">
 				<table align="left" width="100%" bordercolor="beige">
 					<thead style="text-align: left;">
 						<tr>
@@ -122,6 +73,32 @@
 							</tr>
 						</c:forEach>
 
+							</tbody>
+				</table>
+			</div>
+			
+			
+			<div style="float: left; width: 33%;">
+				<div style="text-align:center;">자유</div>
+				<hr>
+				<table align="left" width="100%" bordercolor="beige">
+					<thead style="text-align: left;">
+						<tr>
+							<th>작성일</th>
+							<th>제목</th>
+							<th>조회수</th>
+					</thead>
+
+					<tbody>
+
+						<c:forEach var="freeRecentArticle" items="${freeRecentArticle}">
+						<tr>
+								<td><span>${freeRecentArticle.getRegDate()}</span></td>
+								<td><span onclick="location.href='../article/detail?articleId=${freeRecentArticle.getId()}'" class="highlight" style="cursor:pointer">${freeRecentArticle.getTitle()}</span></td>
+								<td><span>${freeRecentArticle.getHitsCount()}</span></td>
+
+							</tr>
+						</c:forEach>
 							</tbody>
 				</table>
 			</div>

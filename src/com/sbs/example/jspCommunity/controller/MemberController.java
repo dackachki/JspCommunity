@@ -124,8 +124,10 @@ public class MemberController extends Controller {
 		if (session.getAttribute("loginedMemberId") == null) {
 			return msgAndBack(req, "이미 로그아웃 상태입니다.");
 		}
-
+		
+		session.setAttribute("isLogined",false);
 		session.removeAttribute("loginedMemberId");
+		session.removeAttribute("loginedMember");
 		session.removeAttribute("loginedMemberNick");
 		session.removeAttribute("isUsingTempPw");
 

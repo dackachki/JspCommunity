@@ -177,37 +177,58 @@ a {
   margin-left:5px;
 }
 /* 로고 끝 */
-
-/* 탑바 시작 */
-.top-bar {
-  height:100px;
+/* 메뉴바 시작 */
+.menu-bar {
   background-color:black;
   color:white;
 }
 
-.top-bar .logo {
-  padding-left:10px;
+.menu-bar__menu-1 > ul > li {
+  width:25%;
+  position:relative;
 }
 
-.top-bar__menu-box-1 > ul > li > a {
-  padding:0 20px;
+.menu-bar__menu-1 ul > li > a {
+  text-align:center;
+  padding:20px 0;
 }
 
-.top-bar__menu-box-1 > ul > li:hover > a {
-  background-color:white;
+.menu-bar__menu-1 ul > li:hover > a {
   
+  background-color:white;
+  z-index:1;
+  color:black;
 }
 
-.top-bar__menu-box-1 > ul > li > a > span:last-child {
-  margin-left:5px;
+.menu-bar__menu-1 > ul > li > a {
+  border-radius:10px 10px 0 0;
 }
 
-/* 탑바 끝 */
-/* 탑메뉴 시작 */
-.top-menu > a{
-	font-weight:bold;
-	}
-/* 탑메뉴 끝 */
+.menu-bar__menu-1 > ul ul {
+  display:none;
+  position:absolute;
+  top:100%;
+  left:-10px;
+  width:100%;
+  background-color:black;
+  border:10px solid black;
+  border-top-width:0;
+  border-radius:0 0 20px 20px;
+  z-index:10;
+  font-size:1.5rem;
+}
+.menu-bar__menu-1> ul ul i{
+	margin-right:10px;
+}
+
+.menu-bar__menu-1 > ul > li:hover > ul {
+  display:block;
+}
+
+.menu-bar__menu-1 > ul ul > li:last-child > a {
+  border-radius:0 0 10px 10px;
+}
+/* 메뉴바 끝 */
 
 /* 타이틀 시작 */
 .title-bar {

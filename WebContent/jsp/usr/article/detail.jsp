@@ -181,7 +181,7 @@
 			<a>${reply.regDate}</a>/
 			<a>닉네임:${reply.writerNick} </a>
 			<br>
-			<a style="margin:20px;">${reply.rbody}</a>
+			<a style="margin:10px;">${reply.rbody}</a>
 
 
 			<c:if test="${sessionScope.loginedMemberId eq reply.memberId}">
@@ -200,7 +200,11 @@
 				<i class="fas fa-thumbs-down"></i>
 			</button>
 			<br>
-		
+		<a href="주소 입력" onClick="window.open(this.href, '', 'width=400, height=430'); return false;">하고픈 말</a>
+
+
+
+
 			<hr style="border: 1px dashed">
 		</c:forEach>
 	
