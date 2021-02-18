@@ -72,7 +72,7 @@
 				<version>2.2</version>
 				<configuration>
 					<server>devly__manager_text</server>
-					<url>http://devly.oa.gg:8080/manager/text</url>
+					<url>http://blk.lla.kr:8080/manager/text</url>
 					<path>/</path>
 				</configuration>
 			</plugin>

@@ -346,6 +346,63 @@ a {
   }
 }
 
-
 /* 게시물 리스트 박스 모바일 끝 */
+/* 메인 버튼s 시작 */
+.main-btns{
+	justify-content:flex-end;	
+}
+
+
+.btn-login{
+	border: 1px solid skyblue;
+	background-color: rgba(0,0,0,0);
+	color: skyblue;
+	padding: 5px;
+	width:200px;
+	height:30px;	
+	cursor:pointer;
+	
+		}
+
+/* 메인 버튼s 끝 */
+     .main {
+            min-width: 320px;
+            max-width: 800px;
+            padding: 10px;    
+            border-radius: 7px;;        
+            
+            }
+ 
+        section {
+            display: none;
+            padding: 20px 0 0;
+            border-top: 1px solid #ddd;}
+ 
+        input {
+              display: none;}
+ 
+        label {
+            display:block;
+            padding: 15px 25px;
+            font-weight: 600;
+            color: #bbb;
+            border: 1px solid transparent;}
+ 
+        label:hover {
+            color: #2e9cdf;
+            cursor: pointer;}
+ 
+        /*input 클릭시, label 스타일*/
+        input:checked + label {
+              color: #555;
+              border: 1px solid #ddd;
+              border-top: 2px solid #2e9cdf;
+              border-bottom: 1px solid #ffffff;}
+ 
+        #tab1:checked ~ #content1,
+        #tab2:checked ~ #content2,
+        #tab3:checked ~ #content3,
+        #tab4:checked ~ #content4 {
+            display: block;}
+
 /* 커스텀 끝 */

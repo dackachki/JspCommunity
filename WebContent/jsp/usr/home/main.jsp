@@ -7,25 +7,31 @@
 <%@ include file="../../part/head.jspf"%>
 <section class="con-min-width flex">
 
-	<div class="con flex-di-c flex-grow-1" style="height: 68vh">
+	<div class="con flex-grow-1" style="height:73vh">
+
+	<div class="main-btns flex-grow-1">
+	<c:if test="${sessionScope.loginedMemberId == null}">
+	<button class="btn-login highlight" onclick="location.href='../member/login'"> 로그인 </button>
+	<button class="btn-login highlight" onclick="location.href='../member/join'"> 회원가입 </button>
+	
+	</c:if>
+	
+	<c:if test="${sessionScope.loginedMemberId > 0}">
+	<button class="btn-login highlight" onclick="location.href='../member/login'"> 로그아웃 </button>
+	<button class="btn-login highlight" onclick="location.href='../member/MModify'"> 회원정보 수정 </button>
+	</c:if>
+	</div>			
 
 		
 
-		<h1 class="center">안녕하세요.</h1>
-
-		<c:if test="${sessionScope.loginedMemberId > 0}">
-			<div class="con center">
-				<h1>${sessionScope.loginedMemberNick}님 환영합니다.</h1>
-			</div>
-		</c:if>
-
+		
 		<div class="boardlist">
 		<h1>최신 글 목록</h1>
 		
 			<div style="float: left; width: 33%;">
-				<div style="text-align:center;">공지</div>
+				<div style="text-align:center;" class="hidden md:inline-block">공지</div>
 				<hr align="left" style="width:97%">
-				<table align="center" width="100%" bordercolor="beige">
+				<table align="center" width="100%" bordercolor="beige" class="hidden md:inline-block">
 					
 					<thead style="text-align: left;">
 					
@@ -52,9 +58,9 @@
 
 			</div>			
 				<div style="float: left; width: 33%;">
-				<div style="text-align:center;">정보</div>
+				<div style="text-align:center;" class="hidden md:inline-block">정보</div>
 				<hr align="left" style="width:97%">
-				<table align="left" width="100%" bordercolor="beige">
+				<table align="left" width="100%" bordercolor="beige"  class="hidden md:inline-block">
 					<thead style="text-align: left;">
 						<tr>
 							<th>작성일</th>
@@ -79,9 +85,9 @@
 			
 			
 			<div style="float: left; width: 33%;">
-				<div style="text-align:center;">자유</div>
+				<div style="text-align:center;" class="hidden md:inline-block">자유</div>
 				<hr>
-				<table align="left" width="100%" bordercolor="beige">
+				<table align="left" width="100%" bordercolor="beige" class="hidden md:inline-block">
 					<thead style="text-align: left;">
 						<tr>
 							<th>작성일</th>
@@ -102,10 +108,23 @@
 							</tbody>
 				</table>
 			</div>
-		</div>
-		
+			
+			<div class="main md:hidden table" style="text-align:left">
+ 
+ 		<c:forEach var="board" items="${boards}">
+  
+    <input id="tab${board.id}" type="radio" name="tabs"> 
+  	
+    <label for="tab${board.id}">${board.name}</label>
+ 
+     <section id="content${board.id}" style="margin-bottom:20px;">
+        
+    </section>
+ 	</c:forEach>
 	</div>
 	
+		</div>
+		
 </section>
 
 <%@ include file="../../part/foot.jspf"%>

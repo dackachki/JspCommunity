@@ -199,8 +199,10 @@
 				onclick="location.href='addDislikeR?articleId=${article.getId()}'">
 				<i class="fas fa-thumbs-down"></i>
 			</button>
-			<br>
-		<a href="주소 입력" onClick="window.open(this.href, '', 'width=400, height=430'); return false;">하고픈 말</a>
+			
+		<button onClick="window.open(this.href, '', 'width=400, height=430'); return false;">
+		<i class="fas fa-pen-square"></i>
+		</button>
 
 
 

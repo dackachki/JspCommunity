@@ -346,6 +346,23 @@ a {
   }
 }
 
-
 /* 게시물 리스트 박스 모바일 끝 */
+/* 메인 버튼s 시작 */
+.main-btns{
+	justify-content:flex-end;	
+}
+
+
+.btn-login{
+	border: 1px solid skyblue;
+	background-color: rgba(0,0,0,0);
+	color: skyblue;
+	padding: 5px;
+	width:200px;
+	height:30px;	
+	cursor:pointer;
+	
+		}
+
+/* 메인 버튼s 끝 */
 /* 커스텀 끝 */

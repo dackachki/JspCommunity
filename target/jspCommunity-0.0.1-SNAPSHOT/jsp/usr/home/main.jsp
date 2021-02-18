@@ -7,18 +7,24 @@
 <%@ include file="../../part/head.jspf"%>
 <section class="con-min-width flex">
 
-	<div class="con flex-di-c flex-grow-1" style="height: 68vh">
+	<div class="con flex-grow-1" style="height:73vh">
+
+	<div class="main-btns flex-grow-1">
+	<c:if test="${sessionScope.loginedMemberId == null}">
+	<button class="btn-login highlight" onclick="location.href='../member/login'"> 로그인 </button>
+	<button class="btn-login highlight" onclick="location.href='../member/login'"> 회원가입 </button>
+	
+	</c:if>
+	
+	<c:if test="${sessionScope.loginedMemberId > 0}">
+	<button class="btn-login highlight" onclick="location.href='../member/login'"> 로그아웃 </button>
+	<button class="btn-login highlight" onclick="location.href='../member/login'"> 회원정보 수정 </button>
+	</c:if>
+	</div>			
 
 		
 
-		<h1 class="center">안녕하세요.</h1>
-
-		<c:if test="${sessionScope.loginedMemberId > 0}">
-			<div class="con center">
-				<h1>${sessionScope.loginedMemberNick}님 환영합니다.</h1>
-			</div>
-		</c:if>
-
+		
 		<div class="boardlist">
 		<h1>최신 글 목록</h1>
 		
@@ -102,9 +108,13 @@
 							</tbody>
 				</table>
 			</div>
+
+		
 		</div>
 		
+		
 	</div>
+	
 	
 </section>
 
